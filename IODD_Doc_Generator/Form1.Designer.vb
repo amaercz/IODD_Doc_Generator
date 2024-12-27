@@ -22,8 +22,10 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.LoadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OptionallySelectMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tscbIolMasters = New System.Windows.Forms.ToolStripComboBox()
         Me.tscbIolMasterPorts = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -32,7 +34,6 @@ Partial Class Form1
         Me.PdfWithBackgroundToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PdfNoBackgroundColorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
-        Me.OptionallySelectMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -53,6 +54,13 @@ Partial Class Form1
         Me.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem"
         Me.LoadToolStripMenuItem.Size = New System.Drawing.Size(112, 23)
         Me.LoadToolStripMenuItem.Text = "load IODD 1.1 File"
+        '
+        'OptionallySelectMasterToolStripMenuItem
+        '
+        Me.OptionallySelectMasterToolStripMenuItem.Enabled = False
+        Me.OptionallySelectMasterToolStripMenuItem.Name = "OptionallySelectMasterToolStripMenuItem"
+        Me.OptionallySelectMasterToolStripMenuItem.Size = New System.Drawing.Size(189, 23)
+        Me.OptionallySelectMasterToolStripMenuItem.Text = "Optionally select Master/Port-> "
         '
         'tscbIolMasters
         '
@@ -76,8 +84,8 @@ Partial Class Form1
         '
         Me.SaveToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveHtmlToolStripMenuItem, Me.PdfWithBackgroundToolStripMenuItem, Me.PdfNoBackgroundColorToolStripMenuItem})
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(178, 23)
-        Me.SaveToolStripMenuItem.Text = "save generatd Documentation"
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(184, 23)
+        Me.SaveToolStripMenuItem.Text = "save generated Documentation"
         '
         'SaveHtmlToolStripMenuItem
         '
@@ -110,13 +118,6 @@ Partial Class Form1
         Me.WebView21.TabIndex = 3
         Me.WebView21.ZoomFactor = 1.0R
         '
-        'OptionallySelectMasterToolStripMenuItem
-        '
-        Me.OptionallySelectMasterToolStripMenuItem.Enabled = False
-        Me.OptionallySelectMasterToolStripMenuItem.Name = "OptionallySelectMasterToolStripMenuItem"
-        Me.OptionallySelectMasterToolStripMenuItem.Size = New System.Drawing.Size(189, 23)
-        Me.OptionallySelectMasterToolStripMenuItem.Text = "Optionally select Master/Port-> "
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -124,6 +125,7 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(962, 552)
         Me.Controls.Add(Me.WebView21)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
