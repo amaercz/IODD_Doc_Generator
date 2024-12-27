@@ -1,0 +1,62 @@
+{
+  "manufacturer": "Balluff",
+  "model": "BNI00HM",
+  "ports": [
+    {
+      "name": "Port 0",
+      "inByteCount": 32,
+      "inByteStart": 8,
+      "outByteCount": 32,
+      "outByteStart": 6
+    },
+    {
+      "name": "Port 1",
+      "inByteCount": 32,
+      "inByteStart": 55,
+      "outByteCount": 32,
+      "outByteStart": 38
+    },
+    {
+      "name": "Port 2",
+      "inByteCount": 32,
+      "inByteStart": 104,
+      "outByteCount": 32,
+      "outByteStart": 70
+    },
+    {
+      "name": "Port 3",
+      "inByteCount": 32,
+      "inByteStart": 152,
+      "outByteCount": 32,
+      "outByteStart": 102
+    },
+    {
+      "name": "Port 4",
+      "inByteCount": 32,
+      "inByteStart": 200,
+      "outByteCount": 32,
+      "outByteStart": 134
+    },
+    {
+      "name": "Port 5",
+      "inByteCount": 32,
+      "inByteStart": 248,
+      "outByteCount": 32,
+      "outByteStart": 166
+    },
+    {
+      "name": "Port 6",
+      "inByteCount": 32,
+      "inByteStart": 296,
+      "outByteCount": 32,
+      "outByteStart": 198
+    },
+    {
+      "name": "Port 7",
+      "inByteCount": 32,
+      "inByteStart": 344,
+      "outByteCount": 32,
+      "outByteStart": 230
+    }
+  ]
+}

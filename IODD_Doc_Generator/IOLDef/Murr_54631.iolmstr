@@ -1,0 +1,62 @@
+{
+  "manufacturer": "Murr",
+  "model": "54631",
+  "ports": [
+    {
+      "name": "X0",
+      "inByteCount": 32,
+      "inByteStart": 10,
+      "outByteCount": 32,
+      "outByteStart": 2
+    },
+    {
+      "name": "X1",
+      "inByteCount": 32,
+      "inByteStart": 50,
+      "outByteCount": 32,
+      "outByteStart": 34
+    },
+    {
+      "name": "X2",
+      "inByteCount": 32,
+      "inByteStart": 90,
+      "outByteCount": 32,
+      "outByteStart": 66
+    },
+    {
+      "name": "X3",
+      "inByteCount": 32,
+      "inByteStart": 130,
+      "outByteCount": 32,
+      "outByteStart": 98
+    },
+    {
+      "name": "X4",
+      "inByteCount": 32,
+      "inByteStart": 170,
+      "outByteCount": 32,
+      "outByteStart": 130
+    },
+    {
+      "name": "X5",
+      "inByteCount": 32,
+      "inByteStart": 210,
+      "outByteCount": 32,
+      "outByteStart": 162
+    },
+    {
+      "name": "X6",
+      "inByteCount": 32,
+      "inByteStart": 250,
+      "outByteCount": 32,
+      "outByteStart": 194
+    },
+    {
+      "name": "X7",
+      "inByteCount": 32,
+      "inByteStart": 290,
+      "outByteCount": 32,
+      "outByteStart": 226
+    }
+  ]
+}

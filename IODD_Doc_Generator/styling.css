@@ -1,0 +1,115 @@
+﻿
+@media print {
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+    }
+
+    body {
+        width: 11in;
+        height: 17in;
+        /* change the margins as you want them to be. */
+    }
+
+    @page {
+        @top-right {
+            font-family: sans-serif;
+            font-size: 10px;
+            content: counter(page) " of " counter(pages);
+        }
+    }
+}
+
+
+
+body {
+    font-family: sans-serif;
+    font-size: 12px;
+    padding: 10px;
+    margin: 10px;
+}
+summary {
+    /*list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;*/
+    padding: 10px;
+    font-size: 14px;
+    background-color: #f7f7f7f7;
+    border-radius: 10px;
+    page-break-after: avoid;
+}
+
+  /*  summary::after {
+        content: '+';
+    } */
+
+.break-after {
+    page-break-after: always;
+}
+
+details {
+    background-color: #f7f7f7f7;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px 5px;
+    /*  border-left-style: solid;
+    border-left-width: 20px;
+    border-left-color: #effce1;*/
+    page-break-inside: avoid;
+}
+
+.roundedCorners {
+    border-radius: 5px;
+}
+.detailsSummaryAccentBgColor {
+    background-color: #eeeeee;
+}
+div {
+    background-color: #effce1;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px 20px;
+    font-size: 14px;
+}
+
+
+
+     table {
+    border-collapse: collapse;
+    font-family: sans-serif;
+    font-size: 11px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+  /*  page-break-inside: avoid;*/
+}
+
+td {
+    padding: 4px;
+    page-break-inside: avoid;
+}
+
+caption {
+    text-align: left;
+    font-size: 12px;
+    border-collapse: collapse;
+    padding: 5px;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #808080;
+}
+
+
+td span {
+    -ms-writing-mode: tb-rl;
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+}
+
