@@ -32,6 +32,7 @@ body {
     padding: 10px;
     margin: 10px;
 }
+
 summary {
     /*list-style: none;
     display: flex;
@@ -44,7 +45,7 @@ summary {
     page-break-after: avoid;
 }
 
-  /*  summary::after {
+/*  summary::after {
         content: '+';
     } */
 
@@ -66,9 +67,11 @@ details {
 .roundedCorners {
     border-radius: 5px;
 }
+
 .detailsSummaryAccentBgColor {
     background-color: #eeeeee;
 }
+
 div {
     background-color: #effce1;
     border-radius: 5px;
@@ -77,16 +80,19 @@ div {
     font-size: 14px;
 }
 
+.fineprint {
+    font-size: 11px;
+}
 
 
-     table {
+table {
     border-collapse: collapse;
     font-family: sans-serif;
     font-size: 11px;
     padding: 10px;
     margin: 5px;
     border-radius: 10px;
-  /*  page-break-inside: avoid;*/
+    /*  page-break-inside: avoid;*/
 }
 
 td {
@@ -112,4 +118,3 @@ td span {
     transform: rotate(180deg);
     white-space: nowrap;
 }
-
