@@ -34,6 +34,7 @@ Partial Class Form1
         Me.PdfWithBackgroundToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PdfNoBackgroundColorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
+        Me.tstbVer = New System.Windows.Forms.ToolStripTextBox()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,7 +42,7 @@ Partial Class Form1
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadToolStripMenuItem, Me.OptionallySelectMasterToolStripMenuItem, Me.tscbIolMasters, Me.tscbIolMasterPorts, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadToolStripMenuItem, Me.OptionallySelectMasterToolStripMenuItem, Me.tscbIolMasters, Me.tscbIolMasterPorts, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.tstbVer})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(3, 1, 0, 1)
@@ -118,6 +119,18 @@ Partial Class Form1
         Me.WebView21.TabIndex = 3
         Me.WebView21.ZoomFactor = 1.0R
         '
+        'tstbVer
+        '
+        Me.tstbVer.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.tstbVer.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.tstbVer.Enabled = False
+        Me.tstbVer.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.tstbVer.Name = "tstbVer"
+        Me.tstbVer.ReadOnly = True
+        Me.tstbVer.Size = New System.Drawing.Size(40, 23)
+        Me.tstbVer.Text = "v1.0.2"
+        Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -149,4 +162,5 @@ Partial Class Form1
     Friend WithEvents PdfNoBackgroundColorToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents WebView21 As Microsoft.Web.WebView2.WinForms.WebView2
     Friend WithEvents OptionallySelectMasterToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents tstbVer As ToolStripTextBox
 End Class
