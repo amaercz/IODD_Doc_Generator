@@ -23,6 +23,8 @@ Public Class Form1
 
     Private currentOutput As String
 
+    Private currentFile As String
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim userDataFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\IODD_XML_parser"
         Dim env = CoreWebView2Environment.CreateAsync(Nothing, userDataFolder)
@@ -34,29 +36,31 @@ Public Class Form1
         tscbIolMasters.Items.AddRange(iolMasters.masters.ToArray) : tscbIolMasters.SelectedIndex = 0
     End Sub
     Private Sub LoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadToolStripMenuItem.Click
-        loadIODD()
-    End Sub
-    Private Sub loadIODD()
+
         Dim ofd As New OpenFileDialog
         If ofd.ShowDialog = DialogResult.OK Then
-
-            If ofd.FileName.EndsWith("IODD1.1.xml") Then
-                Try
-                    Dim iodd11 As New IODD11Parser.clsIODD11parser(ofd.FileName, cssStyling, tscbIolMasterPorts.SelectedItem, tscbIolMasters.SelectedItem)
-                    currentOutput = iodd11.currentOutput
-                    WebView21.NavigateToString(currentOutput)
-                Catch ex As Exception
-                    MsgBox("Can't load file " & System.IO.Path.GetFileName(ofd.FileName))
-                End Try
-            Else
-                Try
-                    Dim iodd10 As New IODD10parser.clsIODD10parser(ofd.FileName, cssStyling, tscbIolMasterPorts.SelectedItem, tscbIolMasters.SelectedItem)
-                    currentOutput = iodd10.currentOutput
-                    WebView21.NavigateToString(currentOutput)
-                Catch ex As Exception
-                    MsgBox("Can't load file " & System.IO.Path.GetFileName(ofd.FileName))
-                End Try
-            End If
+            loadIODD(ofd.FileName)
+        End If
+    End Sub
+    Private Sub loadIODD(file As String)
+        If Not System.IO.File.Exists(file) Then Return
+        currentFile = file
+        If file.EndsWith("IODD1.1.xml") Then
+            Try
+                Dim iodd11 As New IODD11Parser.clsIODD11parser(file, cssStyling, tscbIolMasterPorts.SelectedItem, tscbIolMasters.SelectedItem)
+                currentOutput = iodd11.currentOutput
+                WebView21.NavigateToString(currentOutput)
+            Catch ex As Exception
+                MsgBox("Can't load file " & System.IO.Path.GetFileName(file))
+            End Try
+        Else
+            Try
+                Dim iodd10 As New IODD10parser.clsIODD10parser(file, cssStyling, tscbIolMasterPorts.SelectedItem, tscbIolMasters.SelectedItem)
+                currentOutput = iodd10.currentOutput
+                WebView21.NavigateToString(currentOutput)
+            Catch ex As Exception
+                MsgBox("Can't load file " & System.IO.Path.GetFileName(file))
+            End Try
         End If
     End Sub
 
@@ -65,12 +69,14 @@ Public Class Form1
         If CType(tscbIolMasters.SelectedItem, IOLMaster).ports.Count > 0 Then
             tscbIolMasterPorts.Items.AddRange(CType(tscbIolMasters.SelectedItem, IOLMaster).ports.ToArray)
             tscbIolMasterPorts.SelectedIndex = 0
-
+        Else
+            If (Not String.IsNullOrWhiteSpace(currentFile)) Then loadIODD(currentFile)
         End If
-
     End Sub
 
-
+    Private Sub tscbIolMasterPorts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles tscbIolMasterPorts.SelectedIndexChanged
+        If (Not String.IsNullOrWhiteSpace(currentFile)) Then loadIODD(currentFile)
+    End Sub
 
 
     Private Sub PdfWithBackgroundToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PdfWithBackgroundToolStripMenuItem.Click
@@ -105,4 +111,6 @@ Public Class Form1
             WebView21.CoreWebView2.PrintToPdfAsync(sfd.FileName, ps)
         End If
     End Sub
+
+
 End Class
