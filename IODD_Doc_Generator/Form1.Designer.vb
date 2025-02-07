@@ -41,71 +41,69 @@ Partial Class Form1
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.GripMargin = New System.Windows.Forms.Padding(2, 2, 0, 2)
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadToolStripMenuItem, Me.OptionallySelectMasterToolStripMenuItem, Me.tscbIolMasters, Me.tscbIolMasterPorts, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.tstbVer})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(3848, 96)
+        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(3, 1, 0, 1)
+        Me.MenuStrip1.Size = New System.Drawing.Size(962, 25)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'LoadToolStripMenuItem
         '
         Me.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem"
-        Me.LoadToolStripMenuItem.Size = New System.Drawing.Size(189, 88)
+        Me.LoadToolStripMenuItem.Size = New System.Drawing.Size(94, 23)
         Me.LoadToolStripMenuItem.Text = "load IODD File"
         '
         'OptionallySelectMasterToolStripMenuItem
         '
         Me.OptionallySelectMasterToolStripMenuItem.Enabled = False
         Me.OptionallySelectMasterToolStripMenuItem.Name = "OptionallySelectMasterToolStripMenuItem"
-        Me.OptionallySelectMasterToolStripMenuItem.Size = New System.Drawing.Size(376, 88)
+        Me.OptionallySelectMasterToolStripMenuItem.Size = New System.Drawing.Size(189, 23)
         Me.OptionallySelectMasterToolStripMenuItem.Text = "Optionally select Master/Port-> "
         '
         'tscbIolMasters
         '
         Me.tscbIolMasters.AutoSize = False
         Me.tscbIolMasters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.tscbIolMasters.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasters.Name = "tscbIolMasters"
-        Me.tscbIolMasters.Size = New System.Drawing.Size(356, 40)
+        Me.tscbIolMasters.Size = New System.Drawing.Size(180, 23)
         '
         'tscbIolMasterPorts
         '
         Me.tscbIolMasterPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.tscbIolMasterPorts.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasterPorts.Name = "tscbIolMasterPorts"
-        Me.tscbIolMasterPorts.Size = New System.Drawing.Size(238, 88)
+        Me.tscbIolMasterPorts.Size = New System.Drawing.Size(121, 23)
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(20, 88)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(12, 23)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveHtmlToolStripMenuItem, Me.PdfWithBackgroundToolStripMenuItem, Me.PdfNoBackgroundColorToolStripMenuItem})
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(370, 88)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(184, 23)
         Me.SaveToolStripMenuItem.Text = "save generated Documentation"
         '
         'SaveHtmlToolStripMenuItem
         '
         Me.SaveHtmlToolStripMenuItem.Name = "SaveHtmlToolStripMenuItem"
-        Me.SaveHtmlToolStripMenuItem.Size = New System.Drawing.Size(412, 44)
+        Me.SaveHtmlToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.SaveHtmlToolStripMenuItem.Text = "save html"
         '
         'PdfWithBackgroundToolStripMenuItem
         '
         Me.PdfWithBackgroundToolStripMenuItem.Name = "PdfWithBackgroundToolStripMenuItem"
-        Me.PdfWithBackgroundToolStripMenuItem.Size = New System.Drawing.Size(412, 44)
+        Me.PdfWithBackgroundToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.PdfWithBackgroundToolStripMenuItem.Text = "pdf with background"
         '
         'PdfNoBackgroundColorToolStripMenuItem
         '
         Me.PdfNoBackgroundColorToolStripMenuItem.Name = "PdfNoBackgroundColorToolStripMenuItem"
-        Me.PdfNoBackgroundColorToolStripMenuItem.Size = New System.Drawing.Size(412, 44)
+        Me.PdfNoBackgroundColorToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.PdfNoBackgroundColorToolStripMenuItem.Text = "pdf no background color"
         '
         'tstbVer
@@ -116,8 +114,8 @@ Partial Class Form1
         Me.tstbVer.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
-        Me.tstbVer.Size = New System.Drawing.Size(80, 88)
-        Me.tstbVer.Text = "1.0.4b1"
+        Me.tstbVer.Size = New System.Drawing.Size(40, 23)
+        Me.tstbVer.Text = "1.0.5b1"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'WebView21
@@ -126,23 +124,23 @@ Partial Class Form1
         Me.WebView21.CreationProperties = Nothing
         Me.WebView21.DefaultBackgroundColor = System.Drawing.Color.White
         Me.WebView21.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.WebView21.Location = New System.Drawing.Point(0, 192)
-        Me.WebView21.Margin = New System.Windows.Forms.Padding(4)
+        Me.WebView21.Location = New System.Drawing.Point(0, 25)
+        Me.WebView21.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.WebView21.Name = "WebView21"
-        Me.WebView21.Size = New System.Drawing.Size(3848, 1932)
+        Me.WebView21.Size = New System.Drawing.Size(962, 527)
         Me.WebView21.TabIndex = 3
         Me.WebView21.ZoomFactor = 1.0R
         '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1924, 1062)
+        Me.ClientSize = New System.Drawing.Size(962, 552)
         Me.Controls.Add(Me.WebView21)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "Form1"
         Me.Text = "IODD Doc Generator"
         Me.MenuStrip1.ResumeLayout(False)
