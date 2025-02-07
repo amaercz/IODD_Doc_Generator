@@ -25,6 +25,8 @@ Public Class Form1
 
     Private currentFile As String
 
+    Private frmBrxExp As New frmBrxExport
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim userDataFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\IODD_XML_parser"
         Dim env = CoreWebView2Environment.CreateAsync(Nothing, userDataFolder)
@@ -50,6 +52,8 @@ Public Class Form1
                 Dim iodd11 As New IODD11Parser.clsIODD11parser(file, cssStyling, tscbIolMasterPorts.SelectedItem, tscbIolMasters.SelectedItem)
                 currentOutput = iodd11.currentOutput
                 WebView21.NavigateToString(currentOutput)
+                ds = New DataSet
+                ds.Merge(iodd11.ds)
             Catch ex As Exception
                 MsgBox("Can't load file " & System.IO.Path.GetFileName(file))
             End Try
@@ -58,6 +62,8 @@ Public Class Form1
                 Dim iodd10 As New IODD10parser.clsIODD10parser(file, cssStyling, tscbIolMasterPorts.SelectedItem, tscbIolMasters.SelectedItem)
                 currentOutput = iodd10.currentOutput
                 WebView21.NavigateToString(currentOutput)
+                ds = New DataSet
+                ds.Merge(iodd10.ds)
             Catch ex As Exception
                 MsgBox("Can't load file " & System.IO.Path.GetFileName(file))
             End Try
@@ -112,5 +118,20 @@ Public Class Form1
         End If
     End Sub
 
-
+    Private Sub ExportBRXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBRXToolStripMenuItem.Click
+        If IsNothing(ds) Then Return
+        frmBrxExp = New frmBrxExport
+        frmBrxExp.ds = New DataSet
+        frmBrxExp.ds.Merge(ds)
+        If Not IsNothing(tscbIolMasterPorts.SelectedItem) Then
+            frmBrxExp.inOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).inByteStart
+            frmBrxExp.outOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).outByteStart
+            frmBrxExp.port = CType(tscbIolMasterPorts.SelectedItem, portInfo).name
+        End If
+        frmBrxExp.inUdtName = "tIn_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        frmBrxExp.outUdtName = "tOut_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        frmBrxExp.subRoutineName = "map_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        frmBrxExp.mainUdtName = "tIO_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        frmBrxExp.ShowDialog()
+    End Sub
 End Class

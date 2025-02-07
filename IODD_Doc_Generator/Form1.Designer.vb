@@ -35,6 +35,7 @@ Partial Class Form1
         Me.PdfNoBackgroundColorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tstbVer = New System.Windows.Forms.ToolStripTextBox()
         Me.WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
+        Me.ExportBRXToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -42,7 +43,7 @@ Partial Class Form1
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadToolStripMenuItem, Me.OptionallySelectMasterToolStripMenuItem, Me.tscbIolMasters, Me.tscbIolMasterPorts, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.tstbVer})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadToolStripMenuItem, Me.OptionallySelectMasterToolStripMenuItem, Me.tscbIolMasters, Me.tscbIolMasterPorts, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.tstbVer, Me.ExportBRXToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(3, 1, 0, 1)
@@ -114,8 +115,8 @@ Partial Class Form1
         Me.tstbVer.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
-        Me.tstbVer.Size = New System.Drawing.Size(40, 23)
-        Me.tstbVer.Text = "1.0.5b1"
+        Me.tstbVer.Size = New System.Drawing.Size(90, 23)
+        Me.tstbVer.Text = "1.1.0a2(withBrx)"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'WebView21
@@ -125,11 +126,17 @@ Partial Class Form1
         Me.WebView21.DefaultBackgroundColor = System.Drawing.Color.White
         Me.WebView21.Dock = System.Windows.Forms.DockStyle.Fill
         Me.WebView21.Location = New System.Drawing.Point(0, 25)
-        Me.WebView21.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.WebView21.Margin = New System.Windows.Forms.Padding(2)
         Me.WebView21.Name = "WebView21"
         Me.WebView21.Size = New System.Drawing.Size(962, 527)
         Me.WebView21.TabIndex = 3
         Me.WebView21.ZoomFactor = 1.0R
+        '
+        'ExportBRXToolStripMenuItem
+        '
+        Me.ExportBRXToolStripMenuItem.Name = "ExportBRXToolStripMenuItem"
+        Me.ExportBRXToolStripMenuItem.Size = New System.Drawing.Size(77, 23)
+        Me.ExportBRXToolStripMenuItem.Text = "export BRX"
         '
         'Form1
         '
@@ -140,9 +147,9 @@ Partial Class Form1
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
-        Me.Text = "IODD Doc Generator"
+        Me.Text = "IODD Brx Exporter"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).EndInit()
@@ -163,4 +170,5 @@ Partial Class Form1
     Friend WithEvents WebView21 As Microsoft.Web.WebView2.WinForms.WebView2
     Friend WithEvents OptionallySelectMasterToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents tstbVer As ToolStripTextBox
+    Friend WithEvents ExportBRXToolStripMenuItem As ToolStripMenuItem
 End Class
