@@ -8,6 +8,8 @@ Public Class frmBrxExport
 
     Public inOffset As Integer
     Public outOffset As Integer
+    Public inBlockName As String = "inData"
+    Public outBlockName As String = "outData"
     Public port As String
     Public inUdtName As String
     Public outUdtName As String
@@ -27,6 +29,10 @@ Public Class frmBrxExport
         tbSubRoutineName.Text = subRoutineName
         tbUdtHeapItem.Text = "IOL_" & port
         tbMainUdtName.Text = mainUdtName
+
+        tbInSourceBlock.Text = inBlockName
+        tbOutTargetBlock.Text = outBlockName
+
         If Not IsNothing(ds) AndAlso ds.Tables.Contains("processData") Then
             If Not ds.Tables("processData").Columns.Contains("udtFieldName") Then
                 ds.Tables("processData").Columns.Add("udtFieldName", GetType(String))
@@ -209,6 +215,11 @@ Public Class frmBrxExport
         lstMemConfg.Add(String.Join(" ", {tbUdtHeapItem.Text.Trim, tbMainUdtName.Text, "0"}))
         lstMemConfg.Add(String.Join(" ", {"IOLRawBuffer", "SDWORD", "1 -1"}))
         lstMemConfg.Add(String.Join(" ", {"IOLUDTOutBuffer", "UBYTE", "32 -1"}))
+        If rbIndirectMode.Checked Then
+            lstMemConfg.Add(String.Join(" ", {tbInSourceBlock.Text, "UBYTE", "32 -1"}))
+            lstMemConfg.Add(String.Join(" ", {tbOutTargetBlock.Text, "UBYTE", "32 -1"}))
+        End If
+
         lstMemConfg.Add(String.Join(" ", {tbSubRoutineName.Text.Trim, "<Virtual>", "0"}))
 
         lstMemConfg.Add("#END")
@@ -422,7 +433,31 @@ Public Class frmBrxExport
         calculateUdts()
     End Sub
 
+    Private Sub rbExplicitMode_CheckedChanged(sender As Object, e As EventArgs) Handles rbExplicitMode.CheckedChanged
+        If rbExplicitMode.Checked Then
+            gbInSourceData.Enabled = True
+            gbOutTargetData.Enabled = True
 
+            nudSourceStartElement.Value = inOffset
+            nudTargetStartElement.Value = outOffset
+
+            tbInSourceBlock.Text = inBlockName
+            tbOutTargetBlock.Text = outBlockName
+
+        Else
+            gbInSourceData.Enabled = False
+            gbOutTargetData.Enabled = False
+
+            inBlockName = tbInSourceBlock.Text
+            outBlockName = tbOutTargetBlock.Text
+
+            tbInSourceBlock.Text = "iolMapRawInBuf"
+            tbOutTargetBlock.Text = "iolMapRawOutBuf"
+
+            nudSourceStartElement.Value = 0
+            nudTargetStartElement.Value = 0
+        End If
+    End Sub
 
     Sub updateProcessData()
         dgvIn.Rows.Clear()

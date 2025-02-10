@@ -50,7 +50,7 @@ Partial Class frmBrxExport
         Me.tbInSourceBlock = New System.Windows.Forms.TextBox()
         Me.gbInUdtName = New System.Windows.Forms.GroupBox()
         Me.tbInUdtName = New System.Windows.Forms.TextBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.gbOutTargetData = New System.Windows.Forms.GroupBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.nudTargetStartElement = New System.Windows.Forms.NumericUpDown()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -72,6 +72,9 @@ Partial Class frmBrxExport
         Me.gbAdvancedOptions = New System.Windows.Forms.GroupBox()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.Splitter1 = New System.Windows.Forms.Splitter()
+        Me.gbMode = New System.Windows.Forms.GroupBox()
+        Me.rbExplicitMode = New System.Windows.Forms.RadioButton()
+        Me.rbIndirectMode = New System.Windows.Forms.RadioButton()
         Me.ToolStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.gbInPD.SuspendLayout()
@@ -81,7 +84,7 @@ Partial Class frmBrxExport
         Me.gbInSourceData.SuspendLayout()
         CType(Me.nudSourceStartElement, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbInUdtName.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.gbOutTargetData.SuspendLayout()
         CType(Me.nudTargetStartElement, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbOutUdtName.SuspendLayout()
         Me.gbInUdt.SuspendLayout()
@@ -95,6 +98,7 @@ Partial Class frmBrxExport
         Me.gbSettings.SuspendLayout()
         Me.gbAdvancedOptions.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
+        Me.gbMode.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStrip1
@@ -143,7 +147,7 @@ Partial Class frmBrxExport
         Me.gbInPD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbInPD.Location = New System.Drawing.Point(3, 53)
         Me.gbInPD.Name = "gbInPD"
-        Me.gbInPD.Size = New System.Drawing.Size(439, 124)
+        Me.gbInPD.Size = New System.Drawing.Size(439, 90)
         Me.gbInPD.TabIndex = 2
         Me.gbInPD.TabStop = False
         Me.gbInPD.Text = "Process Data IN"
@@ -159,7 +163,7 @@ Partial Class frmBrxExport
         Me.dgvIn.Location = New System.Drawing.Point(3, 16)
         Me.dgvIn.Name = "dgvIn"
         Me.dgvIn.RowHeadersWidth = 5
-        Me.dgvIn.Size = New System.Drawing.Size(433, 105)
+        Me.dgvIn.Size = New System.Drawing.Size(433, 71)
         Me.dgvIn.TabIndex = 3
         '
         'Column1
@@ -211,7 +215,7 @@ Partial Class frmBrxExport
         Me.gbOutPD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbOutPD.Location = New System.Drawing.Point(448, 53)
         Me.gbOutPD.Name = "gbOutPD"
-        Me.gbOutPD.Size = New System.Drawing.Size(439, 124)
+        Me.gbOutPD.Size = New System.Drawing.Size(439, 90)
         Me.gbOutPD.TabIndex = 3
         Me.gbOutPD.TabStop = False
         Me.gbOutPD.Text = "Process Data OUT"
@@ -227,7 +231,7 @@ Partial Class frmBrxExport
         Me.dgvOut.Location = New System.Drawing.Point(3, 16)
         Me.dgvOut.Name = "dgvOut"
         Me.dgvOut.RowHeadersWidth = 5
-        Me.dgvOut.Size = New System.Drawing.Size(433, 105)
+        Me.dgvOut.Size = New System.Drawing.Size(433, 71)
         Me.dgvOut.TabIndex = 3
         '
         'DataGridViewTextBoxColumn1
@@ -279,7 +283,7 @@ Partial Class frmBrxExport
         Me.gbInSourceData.Controls.Add(Me.nudSourceStartElement)
         Me.gbInSourceData.Controls.Add(Me.tbInSourceBlock)
         Me.gbInSourceData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbInSourceData.Location = New System.Drawing.Point(3, 58)
+        Me.gbInSourceData.Location = New System.Drawing.Point(3, 133)
         Me.gbInSourceData.Name = "gbInSourceData"
         Me.gbInSourceData.Size = New System.Drawing.Size(643, 49)
         Me.gbInSourceData.TabIndex = 0
@@ -343,19 +347,19 @@ Partial Class frmBrxExport
         Me.tbInUdtName.Size = New System.Drawing.Size(433, 20)
         Me.tbInUdtName.TabIndex = 1
         '
-        'GroupBox2
+        'gbOutTargetData
         '
-        Me.GroupBox2.Controls.Add(Me.Label4)
-        Me.GroupBox2.Controls.Add(Me.nudTargetStartElement)
-        Me.GroupBox2.Controls.Add(Me.Label3)
-        Me.GroupBox2.Controls.Add(Me.tbOutTargetBlock)
-        Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(3, 113)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(643, 43)
-        Me.GroupBox2.TabIndex = 1
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Output data target data block (has to be byte array)"
+        Me.gbOutTargetData.Controls.Add(Me.Label4)
+        Me.gbOutTargetData.Controls.Add(Me.nudTargetStartElement)
+        Me.gbOutTargetData.Controls.Add(Me.Label3)
+        Me.gbOutTargetData.Controls.Add(Me.tbOutTargetBlock)
+        Me.gbOutTargetData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbOutTargetData.Location = New System.Drawing.Point(3, 188)
+        Me.gbOutTargetData.Name = "gbOutTargetData"
+        Me.gbOutTargetData.Size = New System.Drawing.Size(643, 43)
+        Me.gbOutTargetData.TabIndex = 1
+        Me.gbOutTargetData.TabStop = False
+        Me.gbOutTargetData.Text = "Output data target data block (has to be byte array)"
         '
         'Label4
         '
@@ -419,9 +423,9 @@ Partial Class frmBrxExport
         Me.gbInUdt.Controls.Add(Me.dgvInUdt)
         Me.gbInUdt.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbInUdt.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbInUdt.Location = New System.Drawing.Point(3, 183)
+        Me.gbInUdt.Location = New System.Drawing.Point(3, 149)
         Me.gbInUdt.Name = "gbInUdt"
-        Me.gbInUdt.Size = New System.Drawing.Size(439, 125)
+        Me.gbInUdt.Size = New System.Drawing.Size(439, 91)
         Me.gbInUdt.TabIndex = 6
         Me.gbInUdt.TabStop = False
         Me.gbInUdt.Text = "Input UDT"
@@ -436,7 +440,7 @@ Partial Class frmBrxExport
         Me.dgvInUdt.Location = New System.Drawing.Point(3, 16)
         Me.dgvInUdt.Name = "dgvInUdt"
         Me.dgvInUdt.RowHeadersWidth = 5
-        Me.dgvInUdt.Size = New System.Drawing.Size(433, 106)
+        Me.dgvInUdt.Size = New System.Drawing.Size(433, 72)
         Me.dgvInUdt.TabIndex = 0
         '
         'GroupBox3
@@ -444,9 +448,9 @@ Partial Class frmBrxExport
         Me.GroupBox3.Controls.Add(Me.dgvOutUdt)
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(448, 183)
+        Me.GroupBox3.Location = New System.Drawing.Point(448, 149)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(439, 125)
+        Me.GroupBox3.Size = New System.Drawing.Size(439, 91)
         Me.GroupBox3.TabIndex = 7
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Output UDT"
@@ -461,14 +465,15 @@ Partial Class frmBrxExport
         Me.dgvOutUdt.Location = New System.Drawing.Point(3, 16)
         Me.dgvOutUdt.Name = "dgvOutUdt"
         Me.dgvOutUdt.RowHeadersWidth = 5
-        Me.dgvOutUdt.Size = New System.Drawing.Size(433, 106)
+        Me.dgvOutUdt.Size = New System.Drawing.Size(433, 72)
         Me.dgvOutUdt.TabIndex = 0
         '
         'FlowLayoutPanel1
         '
         Me.FlowLayoutPanel1.Controls.Add(Me.GroupBox1)
+        Me.FlowLayoutPanel1.Controls.Add(Me.gbMode)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbInSourceData)
-        Me.FlowLayoutPanel1.Controls.Add(Me.GroupBox2)
+        Me.FlowLayoutPanel1.Controls.Add(Me.gbOutTargetData)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbDeviceName)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbSubRoutineName)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbGlobalUdtName)
@@ -477,14 +482,14 @@ Partial Class frmBrxExport
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 16)
         Me.FlowLayoutPanel1.Margin = New System.Windows.Forms.Padding(2)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(890, 334)
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(890, 402)
         Me.FlowLayoutPanel1.TabIndex = 8
         '
         'gbDeviceName
         '
         Me.gbDeviceName.Controls.Add(Me.tbUdtHeapItem)
         Me.gbDeviceName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbDeviceName.Location = New System.Drawing.Point(3, 162)
+        Me.gbDeviceName.Location = New System.Drawing.Point(3, 237)
         Me.gbDeviceName.Name = "gbDeviceName"
         Me.gbDeviceName.Size = New System.Drawing.Size(643, 49)
         Me.gbDeviceName.TabIndex = 2
@@ -502,7 +507,7 @@ Partial Class frmBrxExport
         '
         Me.gbSubRoutineName.Controls.Add(Me.tbSubRoutineName)
         Me.gbSubRoutineName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbSubRoutineName.Location = New System.Drawing.Point(3, 217)
+        Me.gbSubRoutineName.Location = New System.Drawing.Point(3, 292)
         Me.gbSubRoutineName.Name = "gbSubRoutineName"
         Me.gbSubRoutineName.Size = New System.Drawing.Size(643, 48)
         Me.gbSubRoutineName.TabIndex = 3
@@ -520,7 +525,7 @@ Partial Class frmBrxExport
         '
         Me.gbGlobalUdtName.Controls.Add(Me.tbMainUdtName)
         Me.gbGlobalUdtName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbGlobalUdtName.Location = New System.Drawing.Point(3, 271)
+        Me.gbGlobalUdtName.Location = New System.Drawing.Point(3, 346)
         Me.gbGlobalUdtName.Name = "gbGlobalUdtName"
         Me.gbGlobalUdtName.Size = New System.Drawing.Size(643, 48)
         Me.gbGlobalUdtName.TabIndex = 4
@@ -541,7 +546,7 @@ Partial Class frmBrxExport
         Me.gbSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbSettings.Location = New System.Drawing.Point(0, 39)
         Me.gbSettings.Name = "gbSettings"
-        Me.gbSettings.Size = New System.Drawing.Size(896, 353)
+        Me.gbSettings.Size = New System.Drawing.Size(896, 421)
         Me.gbSettings.TabIndex = 9
         Me.gbSettings.TabStop = False
         Me.gbSettings.Text = "Settings (Edit to match the Input and Output data blocks used in the EIP scanner)" &
@@ -552,9 +557,9 @@ Partial Class frmBrxExport
         Me.gbAdvancedOptions.Controls.Add(Me.TableLayoutPanel1)
         Me.gbAdvancedOptions.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbAdvancedOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbAdvancedOptions.Location = New System.Drawing.Point(0, 402)
+        Me.gbAdvancedOptions.Location = New System.Drawing.Point(0, 470)
         Me.gbAdvancedOptions.Name = "gbAdvancedOptions"
-        Me.gbAdvancedOptions.Size = New System.Drawing.Size(896, 330)
+        Me.gbAdvancedOptions.Size = New System.Drawing.Size(896, 262)
         Me.gbAdvancedOptions.TabIndex = 10
         Me.gbAdvancedOptions.TabStop = False
         Me.gbAdvancedOptions.Text = "Advanced Options ( Don't change anything unless you know you need to )"
@@ -577,17 +582,53 @@ Partial Class frmBrxExport
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(890, 311)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(890, 243)
         Me.TableLayoutPanel1.TabIndex = 11
         '
         'Splitter1
         '
         Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Splitter1.Location = New System.Drawing.Point(0, 392)
+        Me.Splitter1.Location = New System.Drawing.Point(0, 460)
         Me.Splitter1.Name = "Splitter1"
         Me.Splitter1.Size = New System.Drawing.Size(896, 10)
         Me.Splitter1.TabIndex = 11
         Me.Splitter1.TabStop = False
+        '
+        'gbMode
+        '
+        Me.gbMode.Controls.Add(Me.rbIndirectMode)
+        Me.gbMode.Controls.Add(Me.rbExplicitMode)
+        Me.gbMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbMode.Location = New System.Drawing.Point(3, 58)
+        Me.gbMode.Name = "gbMode"
+        Me.gbMode.Size = New System.Drawing.Size(643, 69)
+        Me.gbMode.TabIndex = 8
+        Me.gbMode.TabStop = False
+        Me.gbMode.Text = "Mode"
+        '
+        'rbExplicitMode
+        '
+        Me.rbExplicitMode.AutoSize = True
+        Me.rbExplicitMode.Checked = True
+        Me.rbExplicitMode.Location = New System.Drawing.Point(25, 19)
+        Me.rbExplicitMode.Name = "rbExplicitMode"
+        Me.rbExplicitMode.Size = New System.Drawing.Size(446, 17)
+        Me.rbExplicitMode.TabIndex = 0
+        Me.rbExplicitMode.TabStop = True
+        Me.rbExplicitMode.Text = "Explicitly use the scanner In- and Out datablocks starting ant he specified start" &
+    "ing indexes"
+        Me.rbExplicitMode.UseVisualStyleBackColor = True
+        '
+        'rbIndirectMode
+        '
+        Me.rbIndirectMode.AutoSize = True
+        Me.rbIndirectMode.Location = New System.Drawing.Point(25, 42)
+        Me.rbIndirectMode.Name = "rbIndirectMode"
+        Me.rbIndirectMode.Size = New System.Drawing.Size(486, 17)
+        Me.rbIndirectMode.TabIndex = 1
+        Me.rbIndirectMode.Text = "Use the bytearrays copied to iolMapRawInBuf and iolMapRawOutBuf  when calling the" &
+    " subroutine"
+        Me.rbIndirectMode.UseVisualStyleBackColor = True
         '
         'frmBrxExport
         '
@@ -612,8 +653,8 @@ Partial Class frmBrxExport
         CType(Me.nudSourceStartElement, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbInUdtName.ResumeLayout(False)
         Me.gbInUdtName.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
+        Me.gbOutTargetData.ResumeLayout(False)
+        Me.gbOutTargetData.PerformLayout()
         CType(Me.nudTargetStartElement, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbOutUdtName.ResumeLayout(False)
         Me.gbOutUdtName.PerformLayout()
@@ -631,6 +672,8 @@ Partial Class frmBrxExport
         Me.gbSettings.ResumeLayout(False)
         Me.gbAdvancedOptions.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.gbMode.ResumeLayout(False)
+        Me.gbMode.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -662,7 +705,7 @@ Partial Class frmBrxExport
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
-    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents gbOutTargetData As GroupBox
     Friend WithEvents gbOutUdtName As GroupBox
     Friend WithEvents tbOutUdtName As TextBox
     Friend WithEvents tbOutTargetBlock As TextBox
@@ -685,4 +728,7 @@ Partial Class frmBrxExport
     Friend WithEvents Splitter1 As Splitter
     Friend WithEvents Label1 As Label
     Friend WithEvents Label4 As Label
+    Friend WithEvents gbMode As GroupBox
+    Friend WithEvents rbIndirectMode As RadioButton
+    Friend WithEvents rbExplicitMode As RadioButton
 End Class
