@@ -1,6 +1,8 @@
-﻿Imports System.Security.Cryptography.X509Certificates
+﻿Imports System.Globalization
+Imports System.Security.Cryptography.X509Certificates
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports IODD10parser
 
 Public Class frmBrxExport
     Public ds As New DataSet
@@ -10,16 +12,57 @@ Public Class frmBrxExport
     Public outOffset As Integer
     Public inBlockName As String = "inData"
     Public outBlockName As String = "outData"
-    Public port As String
+    Public port As String = ""
     Public inUdtName As String
     Public outUdtName As String
+    Public heapItemName As String
     Public mainUdtName As String
     Public subRoutineName As String
 
+    Public vendorId As String
+    Public deviceId As String
+    Public vendorName As String
+    Public deviceName As String
+
+    Public conditionVal As String = ""
+
+    Private deviceNameClean As String
+    Private vendorNameClean As String
 
 
+    Private Async Sub frmBrxExport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-    Private Sub frmBrxExport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Await WebView21.EnsureCoreWebView2Async
+        loadHowTo()
+
+
+        'inUdtName = "tI" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        'outUdtName = "tO" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        'subRoutineName = "map_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        'mainUdtName = "tIO_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+        vendorId = ds.Tables("deviceInfo").Rows(0).Item("vendorId")
+        deviceId = ds.Tables("deviceInfo").Rows(0).Item("deviceId")
+        vendorName = ds.Tables("deviceInfo").Rows(0).Item("vendorName")
+        deviceName = ds.Tables("deviceInfo").Rows(0).Item("deviceName")
+
+
+        Dim reDN As New Regex("[^A-Za-z0-9]")
+        deviceNameClean = reDN.Replace(deviceName, "")
+        vendorNameClean = reDN.Replace(vendorName, "").ToLower
+
+        Dim devNameLenUse As Integer = Math.Min(13, deviceNameClean.Length)
+        Dim venNameAvail As Integer = 16 - 2 - devNameLenUse - port.Length
+        Dim vendorNameLenUse As Integer = Math.Min(venNameAvail, vendorNameClean.Length)
+        subRoutineName = "m_" & port.ToUpper & "_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+
+        venNameAvail = 16 - 2 - devNameLenUse
+        vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
+        mainUdtName = "t_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+
+        inUdtName = "tI" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X")
+        outUdtName = "tO" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X")
+
+
 
         nudSourceStartElement.Value = inOffset
         nudTargetStartElement.Value = outOffset
@@ -27,7 +70,8 @@ Public Class frmBrxExport
         tbInUdtName.Text = inUdtName
         tbOutUdtName.Text = outUdtName
         tbSubRoutineName.Text = subRoutineName
-        tbUdtHeapItem.Text = "IOL_" & port
+        heapItemName = "IOL_" & port
+        tbUdtHeapItem.Text = heapItemName
         tbMainUdtName.Text = mainUdtName
 
         tbInSourceBlock.Text = inBlockName
@@ -73,15 +117,58 @@ Public Class frmBrxExport
             dgvIn.DataSource = dvIn
             dgvOut.DataSource = dvOut
 
-            ds.Tables.Add(ds.Tables("processData").DefaultView.ToTable("conditions", True, "conditionValName"))
+            ds.Tables.Add(ds.Tables("processData").DefaultView.ToTable("conditions", True, {"conditionValName", "conditionValue"}))
             cbSelectedOption.DataSource = ds.Tables("conditions")
             cbSelectedOption.ValueMember = "conditionValName"
             cbSelectedOption.DisplayMember = "conditionValName"
             calculateUdts()
         End If
 
+        rbExplicitMode.Checked = True
+
     End Sub
 
+    Private Sub updateTypeAndSubName()
+
+
+        Dim devNameLenUse As Integer
+        Dim venNameAvail As Integer
+        Dim vendorNameLenUse As Integer
+        Dim condLen As Integer = conditionVal.Length
+
+        If rbExplicitMode.Checked Then
+            devNameLenUse = Math.Min(13, deviceNameClean.Length)
+            venNameAvail = 16 - 2 - devNameLenUse - port.Length
+            vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
+            subRoutineName = "m_" & port.ToUpper & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+        Else
+            devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
+            venNameAvail = 16 - 2 - devNameLenUse - condLen
+            vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
+            subRoutineName = "m_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse) & conditionVal
+
+            tbUdtHeapItem.Text = "b_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse) & conditionVal
+        End If
+
+
+
+
+        devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
+        venNameAvail = 16 - 2 - devNameLenUse - condLen
+        vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
+        mainUdtName = "t_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse) & conditionVal
+
+        Dim availCondChars As Integer = 16 - 2 - (CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X")).Length
+
+        inUdtName = "tI" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X") & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length))
+        outUdtName = "tO" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X") & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length))
+
+        tbSubRoutineName.Text = subRoutineName
+        tbMainUdtName.Text = mainUdtName
+
+        tbInUdtName.Text = inUdtName
+        tbOutUdtName.Text = outUdtName
+    End Sub
 
     Private Sub ExportBRXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBRXToolStripMenuItem.Click
 
@@ -155,7 +242,7 @@ Public Class frmBrxExport
             lstRungCommands.Add("#BEGIN FMT_COMMENT")
             lstRungCommands.Add("""Stop here if the outputEnable flag is not active.""")
             lstRungCommands.Add("#End")
-            lstRungCommands.Add("STRN " & tbMainUdtName.Text.Trim & ".enableOutputs")
+            lstRungCommands.Add("STRN " & tbUdtHeapItem.Text.Trim & ".enableOutputs")
             lstRungCommands.Add("RETC")
             lstRungCommands.Add("")
 
@@ -435,10 +522,13 @@ Public Class frmBrxExport
         If IsNothing(cbSelectedOption.SelectedValue) OrElse String.IsNullOrWhiteSpace(cbSelectedOption.SelectedValue.ToString) Then
             dvIn.RowFilter = "pdDir = 'In'"
             dvOut.RowFilter = "pdDir = 'Out'"
+            conditionVal = ""
         Else
             dvIn.RowFilter = "pdDir = 'In' AND " & "conditionValName = '" & cbSelectedOption.SelectedValue.ToString & "'"
             dvOut.RowFilter = "pdDir = 'Out' AND " & "conditionValName = '" & cbSelectedOption.SelectedValue.ToString & "'"
+            conditionVal = CType(cbSelectedOption.SelectedItem, DataRowView).Item("conditionValue")
         End If
+        updateTypeAndSubName()
         calculateUdts()
     End Sub
 
@@ -446,6 +536,7 @@ Public Class frmBrxExport
         If rbExplicitMode.Checked Then
             gbInSourceData.Enabled = True
             gbOutTargetData.Enabled = True
+            gbDeviceName.Enabled = True
 
             nudSourceStartElement.Value = inOffset
             nudTargetStartElement.Value = outOffset
@@ -453,19 +544,26 @@ Public Class frmBrxExport
             tbInSourceBlock.Text = inBlockName
             tbOutTargetBlock.Text = outBlockName
 
+            tbUdtHeapItem.Text = heapItemName
+
         Else
             gbInSourceData.Enabled = False
             gbOutTargetData.Enabled = False
+            gbDeviceName.Enabled = False
 
             inBlockName = tbInSourceBlock.Text
             outBlockName = tbOutTargetBlock.Text
+            heapItemName = tbUdtHeapItem.Text
 
             tbInSourceBlock.Text = "iolMapRawInBuf"
             tbOutTargetBlock.Text = "iolMapRawOutBuf"
+            '  tbUdtHeapItem.Text = "iolMapUdtBuf"          (in this case this is et in updateTypeAndSubName() )
 
             nudSourceStartElement.Value = 0
             nudTargetStartElement.Value = 0
         End If
+        updateTypeAndSubName()
+
     End Sub
 
     Sub updateProcessData()
@@ -485,5 +583,83 @@ Public Class frmBrxExport
                 dgvOut.Rows.Add({rw.Item("itemName").replace(" ", ""), rw.Item("itemType"), rw.Item("itemBitOffset"), rw.Item("itemBitLength"), rw.Item("itemMin"), rw.Item("itemMax")})
             End If
         Next
+    End Sub
+
+    Public Sub loadHowTo()
+        Dim dispString As String = $"
+            <html><body style=""max-width: 800px;"">
+<h3>Purpose of this utility</h3>
+This utility generates the data structures and subroutines required to easily access the inputs and/or outputs of an IO-Link device connected to a BRX PLC through an IO-Link master.
+The generated code is exported and saved as a text file and can be imported into Do-More Designer.
+This utility provides two 'modes' for the generated output:
+<p><b>Direct Mode</b><br>
+The Memory block referenced in the EIP scanner is used directly.<br> This requires a dedicated subroutine for each of the IOL-Masters ports, even when the connected devices are the same.
+</p>
+<p><b>Indirect Mode</b><br>
+The subroutine uses a buffer data block that is copied to and from upon calling the sub routine. 
+<br>This requires more work when calling the subroutine but alllows for the same subroutine to be used for more then one IOL master port if the connected devices are the same.
+</p>
+<h3>How to use this dialog</h3>
+    <ul>
+        <li>If the device has more than one processdata layout option, select the option to use from the drop down list</li> 
+        <li>Choose from one of two modes the subroutine can be created:
+                <ul>
+                <li><b>Direct Mode:</b> The Memory block referenced in the EIP scanner is used directly (this requires a dedicated subroutine for each of the IOL-Masters ports, even when the connected devices are the same.)</li>
+                <li><b>Indirect Mode:</b>The subroutine uses a buffer data block that is copied to and from upon calling the sub routine. (This requires more work when calling the subroutine but alllows for the same subroutine to be used for more then one IOL master port if the connected devices are the same.)</li>
+                </ul>
+        </li> 
+        <li>If using the Direct mode 
+                <ul>
+                <li>enter the names of the input and output data blocks to match what's used in the EIP scanner. If you selected an EIP master and port when loading the IODD file the offsets will be set already. Otherwise consult the manual and enter the offests accordigng to the port used.</li>
+                <li>Enter a name for the heap item generated to access the device's In and Out variables.</li>
+                </ul>
+        </li>
+        <li>The subroutine name is already preconfigured based on the device selected. Only change it if keeping it would conflict with an already existing subroutine.</li>
+        <li>The deviceUDT name is already preconfigured based on the device selected. Only change it if keeping it would conflict with an already existing subroutine.</li>
+    </ul>
+<h3>How to import und use the generated code with BRX</h3>
+
+<ul>
+<li>With a project loaded in Do-More Designer click 'Tools' / 'Insert Instructiond From File' to open the 'Insert Instructions' dialog</li>
+<li>IMPORTANT: In this dialog, make sure to select <b>As Code Blocks</b> next to the file selection dialog</li>
+<li>Now select the file and click 'open'</li>
+<li>If you used direct mode (as described above):
+	<ul>
+	<li>use the 'call' instruction to execute the just imported subroutine in any program.</li>
+	<li>The data will be available through the imported heap item (at default settings this starts with 'IOL_'</li>
+	<li>The input data will immediately be mapped to the variables in the IN structure of the heap item.</li>
+	<li>The output will not be copied to the data block until the bit 'enableOutputs' in the heap item is written to TRUE</li>
+	</ul>
+</li>
+<li>If you used indirect mode (as descibed above):
+	<ul>
+	<li>Generate a heap item using the device UDT that was imported into DmD.</li>
+	<li>Add a 'call' instruction to execute the imported subroutine in any program.</li>
+	<li>in this 'call' instruction, make sure to enable the optionals input and optional output parameters</li>
+	<li>in the input parameter section, copy 
+		<ul>
+		<li>[StartElementOfIOLMasterPortINData] -> iolMapRawInBuf (32 Elements)</li>
+		<li>[StartElementOfIOLMasterPortOUTData] -> iolMapRawOutBuf (32 Elements)</li>		
+		<li>[HeapItemCreatedInStep1] -> [bufferElement] (1 Element)  (the name of the buffer element is identical to the sub routine name with m_ replaced for b_)</li>		
+		</ul>
+	</li>
+	<li>in the input parameter section, copy 
+		<ul>
+		<li>iolMapRawOutBuf -> [StartElementOfIOLMasterPortOUTData] (32 Elements)</li>		
+		<li>[bufferElement] -> [HeapItemCreatedInStep1] (1 Element)  (the name of the buffer element is identical to the sub routine name with m_ replaced for b_)</li>		
+		</ul>
+	</li>
+	<li>The data will be available through the heap item created in step 1</li>
+	<li>The input data will immediately be mapped to the variables in the IN structure of the heap item.</li>
+	<li>The output will not be copied to the data block until the bit 'enableOutputs' in the heap item is written to TRUE</li>
+	</ul>
+
+
+</li>
+</ul>
+</html></body>
+        "
+
+        WebView21.NavigateToString(dispString)
     End Sub
 End Class

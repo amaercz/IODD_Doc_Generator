@@ -128,10 +128,7 @@ Public Class Form1
             frmBrxExp.outOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).outByteStart
             frmBrxExp.port = CType(tscbIolMasterPorts.SelectedItem, portInfo).name
         End If
-        frmBrxExp.inUdtName = "tIn_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
-        frmBrxExp.outUdtName = "tOut_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
-        frmBrxExp.subRoutineName = "map_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
-        frmBrxExp.mainUdtName = "tIO_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("vendorId")).ToString("X") & "_" & CInt(ds.Tables("deviceInfo").Rows(0).Item("deviceId")).ToString("X")
+
         frmBrxExp.ShowDialog()
     End Sub
 End Class
