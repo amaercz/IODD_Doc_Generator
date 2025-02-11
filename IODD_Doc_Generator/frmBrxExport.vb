@@ -153,6 +153,13 @@ Public Class frmBrxExport
             ''Rungs
 
             lstRungCommands.Add("#BEGIN FMT_COMMENT")
+            lstRungCommands.Add("""Stop here if the outputEnable flag is not active.""")
+            lstRungCommands.Add("#End")
+            lstRungCommands.Add("STRN " & tbMainUdtName.Text.Trim & ".enableOutputs")
+            lstRungCommands.Add("RETC")
+            lstRungCommands.Add("")
+
+            lstRungCommands.Add("#BEGIN FMT_COMMENT")
             lstRungCommands.Add("""Clear UDTBuffer""")
             lstRungCommands.Add("#End")
             lstRungCommands.Add("STR ST1")
@@ -199,12 +206,14 @@ Public Class frmBrxExport
         lstRungCommands.Add("RET")
         lstRungCommands.Add("$LGCEND " & tbSubRoutineName.Text.Trim)
 
-        Dim udtOutStart As Integer = ds.Tables("inUdt").Rows.Count + 1
+        Dim udtOutStart As Integer = ds.Tables("inUdt").Rows.Count
+        Dim enableStart As Integer = udtOutStart + ds.Tables("outUdt").Rows.Count
 
         lstUDTconfig.Add("#BEGIN UDT_CONFIG")
         lstUDTconfig.Add(tbMainUdtName.Text.Trim)
         If ds.Tables("inUdt").Rows.Count > 0 Then lstUDTconfig.Add(String.Join(",", {"in", tbInUdtName.Text.Trim, "0" & ":0", "Read-Write, Native, Short"}))
         If ds.Tables("outUdt").Rows.Count > 0 Then lstUDTconfig.Add(String.Join(",", {"out", tbOutUdtName.Text.Trim, udtOutStart & ":0", "Read-Write, Native, Short"}))
+        If ds.Tables("outUdt").Rows.Count > 0 Then lstUDTconfig.Add(String.Join(",", {"enableOutputs", "BIT", enableStart & ":0", "Read-Write, Native, Short"}))
         lstUDTconfig.Add("#END")
 
 
