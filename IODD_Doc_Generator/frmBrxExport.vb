@@ -3,6 +3,7 @@ Imports System.Security.Cryptography.X509Certificates
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports IODD10parser
+Imports IODD11Parser
 
 Public Class frmBrxExport
     Public ds As New DataSet
@@ -174,10 +175,48 @@ Public Class frmBrxExport
 
         calculateUdts()
 
+
+        Dim mainCommentString As String = ""
+        Dim mainCommentLines As New List(Of String)
+        With mainCommentLines
+            .Add("This subroutine handles the input and output data from the device")
+            .Add("Manufacturer: " & vendorName)
+            .Add("Model: " & deviceName)
+            .Add("IO-Link vendor ID: " & vendorId)
+            .Add("IO-Link device ID: " & deviceId)
+
+            If rbExplicitMode.Checked Then
+                .Add("The input data is gathered starting at memory location " & tbInSourceBlock.Text & nudSourceStartElement.Value)
+                .Add("The output data is written starting at memory location " & tbOutTargetBlock.Text & nudTargetStartElement.Value)
+            Else
+                .Add("This subroutine uses data that is copied into buffers upon calling the subroutine")
+                .Add("Proper use requires you to create a heapitem of the udt named " & tbMainUdtName.Text & " that is used to read inputs and/or control outputs")
+                .Add("when calling the subroutine, enable optional input parameters and copy the following:")
+                .Add("[StartElementOfIOLMasterPortINData] to " & tbInSourceBlock.Text & "0 with 32 elements length")
+                .Add("[StartElementOfIOLMasterPortOUTData] to " & tbOutTargetBlock.Text & "0 with 32 elements length")
+                .Add("[UdtHeapItemInstance created in step 1] to " & tbUdtHeapItem.Text & " with 1 element length")
+                .Add("also enable optional output parameters and copy the following:")
+                .Add(tbOutTargetBlock.Text & "to [StartElementOfIOLMasterPortOUTData] with 32 elements length")
+                .Add("[StartElementOfIOLMasterPortOUTData] to " & tbOutTargetBlock.Text & "0 with 32 elements length")
+                .Add(tbUdtHeapItem.Text & " to [UdtHeapItemInstance created in step 1] with 1 element length")
+            End If
+        End With
+        For Each str As String In mainCommentLines
+            mainCommentString &= """<FONT tsize=2>" & str & "</FONT><br>""" & vbCrLf
+        Next
+
+        Dim lstElmDoc As New List(Of String)
+        lstElmDoc.Add("#BEGIN ELEMENT_DOC")
+
         Dim lstRungCommands As New List(Of String)
         Dim lstUDTconfig As New List(Of String)
 
         lstRungCommands.Add("$LGCMOD " & tbSubRoutineName.Text.Trim)
+        lstRungCommands.Add("#BEGIN FMT_COMMENT")
+        lstRungCommands.Add(mainCommentString)
+        lstRungCommands.Add("#End")
+        lstRungCommands.Add("NOP")
+        lstRungCommands.Add("")
 
 #Region "IN"
         If ds.Tables("inUdt").Rows.Count > 0 Then
@@ -220,6 +259,15 @@ Public Class frmBrxExport
                     lstRungCommands.Add(getBRXMathcmdDirect("IOLRawBuffer0", tbUdtHeapItem.Text.Trim & ".in." & rw.Item("fieldName"), rw.Item("fieldType"), rw.Item("sourceBitShift"), rw.Item("sourceBitLength")))
                     lstRungCommands.Add("")
                 End If
+
+                Dim splt() As String = CStr(rw.Item("itemValues")).Split({vbCrLf, vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                If splt.Count > 0 Then
+                    For i As Integer = 0 To splt.Count - 1
+                        splt(i) = """" & splt(i) & """"
+                    Next
+                    lstElmDoc.Add(String.Join(",", {"""" & tbUdtHeapItem.Text.Trim & ".in." & rw.Item("fieldName") & """", """FLAGS=""", """""", """""", String.Join(",", splt)}))
+                End If
+
             Next
 
 
@@ -277,6 +325,14 @@ Public Class frmBrxExport
                     Next
                     lstRungCommands.Add("")
                 End If
+
+                Dim splt() As String = CStr(rw.Item("itemValues")).Split({vbCrLf, vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                If splt.Count > 0 Then
+                    For i As Integer = 0 To splt.Count - 1
+                        splt(i) = """" & splt(i) & """"
+                    Next
+                    lstElmDoc.Add(String.Join(",", {"""" & tbUdtHeapItem.Text.Trim & ".out." & rw.Item("fieldName") & """", """FLAGS=""", """""", """""", String.Join(",", splt)}))
+                End If
             Next
 
             lstRungCommands.Add("#BEGIN FMT_COMMENT")
@@ -290,6 +346,7 @@ Public Class frmBrxExport
         End If
 #End Region
 
+        lstElmDoc.Add("#END")
         lstRungCommands.Add("RET")
         lstRungCommands.Add("$LGCEND " & tbSubRoutineName.Text.Trim)
 
@@ -321,10 +378,14 @@ Public Class frmBrxExport
         lstMemConfg.Add("#END")
 
         Dim sfd As New SaveFileDialog
+        sfd.AddExtension = True
+        sfd.Filter = "text file | *.txt"
+        sfd.FileName = "BrxExport_" & vendorNameClean & "_" & deviceNameClean & "_" & tbSubRoutineName.Text.Trim
         If sfd.ShowDialog = DialogResult.OK Then
             Dim lstOut As New List(Of String)
             lstOut.AddRange(lstUDTconfig)
             lstOut.AddRange(lstMemConfg)
+            '   lstOut.AddRange(lstElmDoc)
             lstOut.AddRange(lstRungCommands)
             System.IO.File.WriteAllLines(sfd.FileName, lstOut.ToArray)
         End If
@@ -393,6 +454,8 @@ Public Class frmBrxExport
             .Columns.Add("sourceBitShift", GetType(Integer))
             .Columns.Add("sourceType", GetType(String))
             .Columns.Add("sourceBitLength", GetType(Integer))
+            .Columns.Add("itemValues", GetType(String))
+
         End With
 
 
@@ -419,7 +482,7 @@ Public Class frmBrxExport
             udtc.sourceBitShift = ((rw.Item("itemBitOffset")) Mod 8)
             udtc.sourceType = rw.Item("itemType")
             udtc.sourceBitLength = rw.Item("itemBitLengthNum")
-
+            udtc.itemValues = rw.Item("itemValues")
             posCnt += 1
             ds.Tables("inUdt").Rows.Add(udtc.getValues)
         Next
@@ -438,6 +501,8 @@ Public Class frmBrxExport
             .Columns.Add("sourceBitShift", GetType(Integer))
             .Columns.Add("sourceType", GetType(String))
             .Columns.Add("sourceBitLength", GetType(Integer))
+            .Columns.Add("itemValues", GetType(String))
+
         End With
 
 
@@ -463,7 +528,7 @@ Public Class frmBrxExport
             udtc.sourceBitShift = ((rw.Item("itemBitOffset")) Mod 8)
             udtc.sourceType = rw.Item("itemType")
             udtc.sourceBitLength = rw.Item("itemBitLengthNum")
-
+            udtc.itemValues = rw.Item("itemValues")
             posCnt += 1
             ds.Tables("outUdt").Rows.Add(udtc.getValues)
         Next
@@ -481,9 +546,10 @@ Public Class frmBrxExport
         Public sourceBitShift As Integer
         Public sourceType As String
         Public sourceBitLength As Integer
+        Public itemValues As String
 
         Public Function getValues() As String()
-            Return {fieldName, fieldType, fieldStartByte, fieldStartDword, sourceBlock, sourceByteOffset, sourceByteLength, sourceBitShift, sourceType, sourceBitLength}
+            Return {fieldName, fieldType, fieldStartByte, fieldStartDword, sourceBlock, sourceByteOffset, sourceByteLength, sourceBitShift, sourceType, sourceBitLength, itemValues}
         End Function
     End Structure
 
