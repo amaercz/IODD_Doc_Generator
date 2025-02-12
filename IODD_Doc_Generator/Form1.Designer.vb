@@ -34,8 +34,8 @@ Partial Class Form1
         Me.PdfWithBackgroundToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PdfNoBackgroundColorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tstbVer = New System.Windows.Forms.ToolStripTextBox()
-        Me.WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
         Me.ExportBRXToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -116,8 +116,14 @@ Partial Class Form1
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
         Me.tstbVer.Size = New System.Drawing.Size(90, 23)
-        Me.tstbVer.Text = "1.1.0a2(withBrx)"
+        Me.tstbVer.Text = "1.1.0a4(withBrx)"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'ExportBRXToolStripMenuItem
+        '
+        Me.ExportBRXToolStripMenuItem.Name = "ExportBRXToolStripMenuItem"
+        Me.ExportBRXToolStripMenuItem.Size = New System.Drawing.Size(77, 23)
+        Me.ExportBRXToolStripMenuItem.Text = "export BRX"
         '
         'WebView21
         '
@@ -131,12 +137,6 @@ Partial Class Form1
         Me.WebView21.Size = New System.Drawing.Size(962, 527)
         Me.WebView21.TabIndex = 3
         Me.WebView21.ZoomFactor = 1.0R
-        '
-        'ExportBRXToolStripMenuItem
-        '
-        Me.ExportBRXToolStripMenuItem.Name = "ExportBRXToolStripMenuItem"
-        Me.ExportBRXToolStripMenuItem.Size = New System.Drawing.Size(77, 23)
-        Me.ExportBRXToolStripMenuItem.Text = "export BRX"
         '
         'Form1
         '

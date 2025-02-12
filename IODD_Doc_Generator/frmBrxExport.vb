@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports IODD10parser
 Imports IODD11Parser
+Imports Microsoft.Web.WebView2.Core
 
 Public Class frmBrxExport
     Public ds As New DataSet
@@ -32,8 +33,10 @@ Public Class frmBrxExport
 
 
     Private Async Sub frmBrxExport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        Await WebView21.EnsureCoreWebView2Async
+        Dim userDataFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\IODD_XML_parser"
+        Dim env = CoreWebView2Environment.CreateAsync(Nothing, userDataFolder)
+        env.Wait()
+        Await WebView21.EnsureCoreWebView2Async(env.Result)
         loadHowTo()
 
 
