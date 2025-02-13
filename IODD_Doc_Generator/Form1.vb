@@ -32,6 +32,8 @@ Public Class Form1
         Dim env = CoreWebView2Environment.CreateAsync(Nothing, userDataFolder)
         env.Wait()
         Await WebView21.EnsureCoreWebView2Async(env.Result)
+        Await WebView22.EnsureCoreWebView2Async(env.Result)
+        loadHowTo()
         Dim path As String = AppDomain.CurrentDomain.BaseDirectory
         iolMasters = New clsIolMasterDefinitions(path & "\IOLDef\", True)
         If System.IO.File.Exists(path & "\styling.css") Then cssStyling = System.IO.File.ReadAllText(path & "\styling.css")
@@ -54,6 +56,7 @@ Public Class Form1
                 WebView21.NavigateToString(currentOutput)
                 ds = New DataSet
                 ds.Merge(iodd11.ds)
+                initBrxExportTab()
             Catch ex As Exception
                 MsgBox("Can't load file " & System.IO.Path.GetFileName(file))
             End Try
@@ -64,6 +67,7 @@ Public Class Form1
                 WebView21.NavigateToString(currentOutput)
                 ds = New DataSet
                 ds.Merge(iodd10.ds)
+                initBrxExportTab()
             Catch ex As Exception
                 MsgBox("Can't load file " & System.IO.Path.GetFileName(file))
             End Try
@@ -118,17 +122,20 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub ExportBRXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBRXToolStripMenuItem.Click
-        If IsNothing(ds) Then Return
-        frmBrxExp = New frmBrxExport
-        frmBrxExp.ds = New DataSet
-        frmBrxExp.ds.Merge(ds)
-        If Not IsNothing(tscbIolMasterPorts.SelectedItem) Then
-            frmBrxExp.inOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).inByteStart
-            frmBrxExp.outOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).outByteStart
-            frmBrxExp.port = CType(tscbIolMasterPorts.SelectedItem, portInfo).name
-        End If
 
-        frmBrxExp.ShowDialog()
-    End Sub
+
+
+    'Private Sub ExportBRXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBRXToolStripMenuItem.Click
+    '    If IsNothing(ds) Then Return
+    '    frmBrxExp = New frmBrxExport
+    '    frmBrxExp.ds = New DataSet
+    '    frmBrxExp.ds.Merge(ds)
+    '    If Not IsNothing(tscbIolMasterPorts.SelectedItem) Then
+    '        frmBrxExp.inOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).inByteStart
+    '        frmBrxExp.outOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).outByteStart
+    '        frmBrxExp.port = CType(tscbIolMasterPorts.SelectedItem, portInfo).name
+    '    End If
+
+    '    frmBrxExp.ShowDialog()
+    'End Sub
 End Class
