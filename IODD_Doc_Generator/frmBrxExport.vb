@@ -595,9 +595,14 @@ Public Class frmBrxExport
         Else
             dvIn.RowFilter = "pdDir = 'In' AND " & "conditionValName = '" & cbSelectedOption.SelectedValue.ToString & "'"
             dvOut.RowFilter = "pdDir = 'Out' AND " & "conditionValName = '" & cbSelectedOption.SelectedValue.ToString & "'"
-            conditionVal = CType(cbSelectedOption.SelectedItem, DataRowView).Item("conditionValue")
+            If Not IsDBNull(CType(cbSelectedOption.SelectedItem, DataRowView).Item("conditionValue")) Then
+                conditionVal = CType(cbSelectedOption.SelectedItem, DataRowView).Item("conditionValue")
+            Else
+                conditionVal = ""
+            End If
+
         End If
-        updateTypeAndSubName()
+            updateTypeAndSubName()
         calculateUdts()
     End Sub
 

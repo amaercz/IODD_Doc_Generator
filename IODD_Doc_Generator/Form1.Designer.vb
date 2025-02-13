@@ -68,12 +68,14 @@ Partial Class Form1
         '
         Me.tscbIolMasters.AutoSize = False
         Me.tscbIolMasters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tscbIolMasters.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasters.Name = "tscbIolMasters"
         Me.tscbIolMasters.Size = New System.Drawing.Size(180, 23)
         '
         'tscbIolMasterPorts
         '
         Me.tscbIolMasterPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tscbIolMasterPorts.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasterPorts.Name = "tscbIolMasterPorts"
         Me.tscbIolMasterPorts.Size = New System.Drawing.Size(121, 23)
         '
@@ -116,7 +118,7 @@ Partial Class Form1
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
         Me.tstbVer.Size = New System.Drawing.Size(90, 23)
-        Me.tstbVer.Text = "1.1.0a4(withBrx)"
+        Me.tstbVer.Text = "1.1.0a5(withBrx)"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'ExportBRXToolStripMenuItem
