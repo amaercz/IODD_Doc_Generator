@@ -56,8 +56,8 @@ Partial Class Form1
         Me.gbSettings = New System.Windows.Forms.GroupBox()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.gbMode = New System.Windows.Forms.GroupBox()
-        Me.rbIndirectMode = New System.Windows.Forms.RadioButton()
-        Me.rbExplicitMode = New System.Windows.Forms.RadioButton()
+        Me.cbGenerateSR = New System.Windows.Forms.CheckBox()
+        Me.cbGenerateSRCall = New System.Windows.Forms.CheckBox()
         Me.gbGlobalUdtName = New System.Windows.Forms.GroupBox()
         Me.tbMainUdtName = New System.Windows.Forms.TextBox()
         Me.gbSubRoutineName = New System.Windows.Forms.GroupBox()
@@ -168,12 +168,14 @@ Partial Class Form1
         '
         Me.tscbIolMasters.AutoSize = False
         Me.tscbIolMasters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tscbIolMasters.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasters.Name = "tscbIolMasters"
         Me.tscbIolMasters.Size = New System.Drawing.Size(180, 23)
         '
         'tscbIolMasterPorts
         '
         Me.tscbIolMasterPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tscbIolMasterPorts.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasterPorts.Name = "tscbIolMasterPorts"
         Me.tscbIolMasterPorts.Size = New System.Drawing.Size(121, 23)
         '
@@ -345,8 +347,8 @@ Partial Class Form1
         '
         'gbMode
         '
-        Me.gbMode.Controls.Add(Me.rbIndirectMode)
-        Me.gbMode.Controls.Add(Me.rbExplicitMode)
+        Me.gbMode.Controls.Add(Me.cbGenerateSR)
+        Me.gbMode.Controls.Add(Me.cbGenerateSRCall)
         Me.gbMode.Dock = System.Windows.Forms.DockStyle.Top
         Me.gbMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbMode.Location = New System.Drawing.Point(3, 58)
@@ -356,29 +358,29 @@ Partial Class Form1
         Me.gbMode.TabStop = False
         Me.gbMode.Text = "Mode"
         '
-        'rbIndirectMode
+        'cbGenerateSR
         '
-        Me.rbIndirectMode.AutoSize = True
-        Me.rbIndirectMode.Location = New System.Drawing.Point(25, 42)
-        Me.rbIndirectMode.Name = "rbIndirectMode"
-        Me.rbIndirectMode.Size = New System.Drawing.Size(507, 17)
-        Me.rbIndirectMode.TabIndex = 1
-        Me.rbIndirectMode.Text = "Indirect: use bytearrays copied to iolMapRawInBuf and iolMapRawOutBuf  when calli" &
-    "ng the subroutine"
-        Me.rbIndirectMode.UseVisualStyleBackColor = True
+        Me.cbGenerateSR.AutoSize = True
+        Me.cbGenerateSR.Checked = True
+        Me.cbGenerateSR.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbGenerateSR.Location = New System.Drawing.Point(6, 19)
+        Me.cbGenerateSR.Name = "cbGenerateSR"
+        Me.cbGenerateSR.Size = New System.Drawing.Size(251, 17)
+        Me.cbGenerateSR.TabIndex = 3
+        Me.cbGenerateSR.Text = "Generate SubRoutine and corresponding UDTs"
+        Me.cbGenerateSR.UseVisualStyleBackColor = True
         '
-        'rbExplicitMode
+        'cbGenerateSRCall
         '
-        Me.rbExplicitMode.AutoSize = True
-        Me.rbExplicitMode.Checked = True
-        Me.rbExplicitMode.Location = New System.Drawing.Point(25, 19)
-        Me.rbExplicitMode.Name = "rbExplicitMode"
-        Me.rbExplicitMode.Size = New System.Drawing.Size(437, 17)
-        Me.rbExplicitMode.TabIndex = 0
-        Me.rbExplicitMode.TabStop = True
-        Me.rbExplicitMode.Text = "Direct: use the scanner In- and Out datablocks starting ant he specified starting" &
-    " indexes"
-        Me.rbExplicitMode.UseVisualStyleBackColor = True
+        Me.cbGenerateSRCall.AutoSize = True
+        Me.cbGenerateSRCall.Checked = True
+        Me.cbGenerateSRCall.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbGenerateSRCall.Location = New System.Drawing.Point(6, 42)
+        Me.cbGenerateSRCall.Name = "cbGenerateSRCall"
+        Me.cbGenerateSRCall.Size = New System.Drawing.Size(373, 17)
+        Me.cbGenerateSRCall.TabIndex = 2
+        Me.cbGenerateSRCall.Text = "Generate Call to SubRoutine with selected In/Out data blocks and offsets"
+        Me.cbGenerateSRCall.UseVisualStyleBackColor = True
         '
         'gbGlobalUdtName
         '
@@ -932,6 +934,7 @@ Partial Class Form1
         'msBrxExport
         '
         Me.msBrxExport.Enabled = False
+        Me.msBrxExport.ImageScalingSize = New System.Drawing.Size(32, 32)
         Me.msBrxExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportBRXToolStripMenuItem})
         Me.msBrxExport.Location = New System.Drawing.Point(3, 3)
         Me.msBrxExport.Name = "msBrxExport"
@@ -1029,8 +1032,6 @@ Partial Class Form1
     Friend WithEvents gbSettings As GroupBox
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
     Friend WithEvents gbMode As GroupBox
-    Friend WithEvents rbIndirectMode As RadioButton
-    Friend WithEvents rbExplicitMode As RadioButton
     Friend WithEvents gbGlobalUdtName As GroupBox
     Friend WithEvents tbMainUdtName As TextBox
     Friend WithEvents gbSubRoutineName As GroupBox
@@ -1078,4 +1079,6 @@ Partial Class Form1
     Friend WithEvents tbInUdtName As TextBox
     Friend WithEvents msBrxExport As MenuStrip
     Friend WithEvents ExportBRXToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents cbGenerateSR As CheckBox
+    Friend WithEvents cbGenerateSRCall As CheckBox
 End Class

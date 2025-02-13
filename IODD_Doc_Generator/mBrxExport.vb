@@ -21,7 +21,12 @@ Partial Class Form1
     Public vendorName As String
     Public deviceName As String
 
+    Public inDataBufferName As String
+    Public outDataBufferName As String
+    Public udtBufferHeapItemName As String
+
     Public conditionVal As String = ""
+    Public conditionDesc As String = ""
 
     Private deviceNameClean As String
     Private vendorNameClean As String
@@ -38,16 +43,18 @@ Partial Class Form1
         vendorNameClean = reDN.Replace(vendorName, "").ToLower
 
         Dim devNameLenUse As Integer = Math.Min(13, deviceNameClean.Length)
-        Dim venNameAvail As Integer = 16 - 2 - devNameLenUse - port.Length
+        Dim venNameAvail As Integer = 16 - 2 - devNameLenUse
         Dim vendorNameLenUse As Integer = Math.Min(venNameAvail, vendorNameClean.Length)
-        subRoutineName = "m_" & port.ToUpper & "_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+        '  subRoutineName = "m_" & "_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+        subRoutineName = "m_" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
 
         venNameAvail = 16 - 2 - devNameLenUse
         vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
-        mainUdtName = "t_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+        ' mainUdtName = "t_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+        mainUdtName = "t_" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
 
-        inUdtName = "tI" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X")
-        outUdtName = "tO" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X")
+        inUdtName = "tI" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        outUdtName = "tO" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
 
         If Not IsNothing(tscbIolMasterPorts.SelectedItem) Then
             inOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).inByteStart
@@ -68,6 +75,9 @@ Partial Class Form1
         heapItemName = "IOL_" & port
         tbUdtHeapItem.Text = heapItemName
         tbMainUdtName.Text = mainUdtName
+
+        inDataBufferName = "IOLBufferDataIn"
+        outDataBufferName = "IOLBufferDataOut"
 
         If Not IsNothing(ds) AndAlso ds.Tables.Contains("processData") Then
             If Not ds.Tables("processData").Columns.Contains("udtFieldName") Then
@@ -114,6 +124,7 @@ Partial Class Form1
             cbSelectedOption.ValueMember = "conditionValName"
             cbSelectedOption.DisplayMember = "conditionValName"
             calculateUdts()
+            updateTypeAndSubName()
         End If
 
 
@@ -146,20 +157,19 @@ Partial Class Form1
         Dim venNameAvail As Integer
         Dim vendorNameLenUse As Integer
         Dim condLen As Integer = conditionVal.Length
-
-        If rbExplicitMode.Checked Then
-            devNameLenUse = Math.Min(13, deviceNameClean.Length)
-            venNameAvail = 16 - 2 - devNameLenUse - port.Length
-            vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
-            subRoutineName = "m_" & port.ToUpper & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
-        Else
-            devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
+        Dim availCondChars As Integer = 16 - 2 - ("V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")).Length
+        'If rbExplicitMode.Checked Then
+        '    devNameLenUse = Math.Min(13, deviceNameClean.Length)
+        '    venNameAvail = 16 - 2 - devNameLenUse - port.Length
+        '    vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
+        '    subRoutineName = "m_" & port.ToUpper & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
+        'Else
+        devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
             venNameAvail = 16 - 2 - devNameLenUse - condLen
             vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
-            subRoutineName = "m_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse) & conditionVal
+        subRoutineName = "m_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
 
-            tbUdtHeapItem.Text = "b_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse) & conditionVal
-        End If
+        udtBufferHeapItemName = "b_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D"
 
 
 
@@ -167,12 +177,12 @@ Partial Class Form1
         devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
         venNameAvail = 16 - 2 - devNameLenUse - condLen
         vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
-        mainUdtName = "t_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse) & conditionVal
+        mainUdtName = "t_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
 
-        Dim availCondChars As Integer = 16 - 2 - (CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X")).Length
 
-        inUdtName = "tI" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X") & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length))
-        outUdtName = "tO" & CInt(vendorId).ToString("X") & CInt(deviceId).ToString("X") & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length))
+
+        inUdtName = "tI" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        outUdtName = "tO" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
 
         tbSubRoutineName.Text = subRoutineName
         tbMainUdtName.Text = mainUdtName
@@ -195,11 +205,11 @@ Partial Class Form1
             .Add("IO-Link vendor ID: " & vendorId)
             .Add("IO-Link device ID: " & deviceId)
 
-            If rbExplicitMode.Checked Then
-                .Add("The input data is gathered starting at memory location " & tbInSourceBlock.Text & nudSourceStartElement.Value)
+
+            .Add("The input data is gathered starting at memory location " & tbInSourceBlock.Text & nudSourceStartElement.Value)
                 .Add("The output data is written starting at memory location " & tbOutTargetBlock.Text & nudTargetStartElement.Value)
-            Else
-                .Add("This subroutine uses data that is copied into buffers upon calling the subroutine")
+
+            .Add("This subroutine uses data that is copied into buffers upon calling the subroutine")
                 .Add("Proper use requires you to create a heapitem of the udt named " & tbMainUdtName.Text & " that is used to read inputs and/or control outputs")
                 .Add("when calling the subroutine, enable optional input parameters and copy the following:")
                 .Add("[StartElementOfIOLMasterPortINData] to " & tbInSourceBlock.Text & "0 with 32 elements length")
@@ -209,7 +219,7 @@ Partial Class Form1
                 .Add(tbOutTargetBlock.Text & "to [StartElementOfIOLMasterPortOUTData] with 32 elements length")
                 .Add("[StartElementOfIOLMasterPortOUTData] to " & tbOutTargetBlock.Text & "0 with 32 elements length")
                 .Add(tbUdtHeapItem.Text & " to [UdtHeapItemInstance created in step 1] with 1 element length")
-            End If
+
         End With
         For Each str As String In mainCommentLines
             mainCommentString &= """<FONT tsize=2>" & str & "</FONT><br>""" & vbCrLf
@@ -222,6 +232,24 @@ Partial Class Form1
         Dim lstUDTconfig As New List(Of String)
 
         lstRungCommands.Add("$LGCMOD " & tbSubRoutineName.Text.Trim)
+
+        For Each cmt As String In {"Vendor: <b>" & vendorName & "</b>", "Device: " & deviceName, "VendorId: " & vendorId, "DeviceId: " & deviceId}
+            lstRungCommands.Add("#BEGIN FMT_COMMENT")
+            lstRungCommands.Add("""<FONT tsize=2>" & cmt & "</FONT>""")
+            lstRungCommands.Add("#End")
+            lstRungCommands.Add("NOP")
+            lstRungCommands.Add("")
+        Next
+
+        If Not String.IsNullOrWhiteSpace(conditionVal) Then
+            lstRungCommands.Add("#BEGIN FMT_COMMENT")
+            lstRungCommands.Add("""<FONT tsize=2>" & "PD layout: " & conditionDesc & " (" & conditionVal & ")</FONT>""")
+            lstRungCommands.Add("#End")
+            lstRungCommands.Add("NOP")
+            lstRungCommands.Add("")
+        End If
+
+
         lstRungCommands.Add("#BEGIN FMT_COMMENT")
         lstRungCommands.Add(mainCommentString)
         lstRungCommands.Add("#End")
@@ -246,19 +274,19 @@ Partial Class Form1
             For Each rw As DataRow In ds.Tables("inUdt").Rows
 
                 lstRungCommands.Add("#BEGIN FMT_COMMENT")
-                lstRungCommands.Add(String.Format("""{2}{3}:{5} -> {0}, Type: {1}, SourceLength: {4}bit""", {rw.Item("fieldName"), rw.Item("fieldType"), tbInSourceBlock.Text, nudSourceStartElement.Value + rw.Item("sourceByteOffset"), rw.Item("sourceBitLength"), rw.Item("sourceBitShift")}))
+                lstRungCommands.Add(String.Format("""{2}{3}:{5} -> {0}, Type: {1}, SourceLength: {4}bit""", {rw.Item("fieldName"), rw.Item("fieldType"), inDataBufferName, rw.Item("sourceByteOffset"), rw.Item("sourceBitLength"), rw.Item("sourceBitShift")}))
                 lstRungCommands.Add("#End")
 
                 If rw.Item("fieldType") = "BIT" Then
                     lstRungCommands.Add("STR ST1")
-                    lstRungCommands.Add(String.Join(" ", {"MATH", tbUdtHeapItem.Text.Trim & ".in." & rw.Item("fieldName"), """" & tbInSourceBlock.Text & (nudSourceStartElement.Value + rw.Item("sourceByteOffset")) & ":" & rw.Item("sourceBitShift") & """"}))
+                    lstRungCommands.Add(String.Join(" ", {"MATH", udtBufferHeapItemName & ".in." & rw.Item("fieldName"), """" & inDataBufferName & (rw.Item("sourceByteOffset")) & ":" & rw.Item("sourceBitShift") & """"}))
                     lstRungCommands.Add("")
                 Else
                     Dim lstBuildCopyCommand As New List(Of String)
                     lstBuildCopyCommand.Add("COPY 0x1 ""4")
                     For idx As Integer = 0 To 3
                         If idx < rw.Item("sourceByteLength") Then
-                            lstBuildCopyCommand.Add(String.Format("0x0 {0}{1} IOLRawBuffer0:B{2} 1", {tbInSourceBlock.Text, nudSourceStartElement.Value + rw.Item("sourceByteOffset") + rw.Item("sourceByteLength") - 1 - idx, idx}))
+                            lstBuildCopyCommand.Add(String.Format("0x0 {0}{1} IOLRawBuffer0:B{2} 1", {inDataBufferName, rw.Item("sourceByteOffset") + rw.Item("sourceByteLength") - 1 - idx, idx}))
                         Else
                             lstBuildCopyCommand.Add(String.Format("0x0 {0}{1} IOLRawBuffer0:B{2} 1", {"0", "", idx}))
                         End If
@@ -266,7 +294,7 @@ Partial Class Form1
                     lstBuildCopyCommand.Add("""")
                     lstRungCommands.Add("STR ST1")
                     lstRungCommands.Add(String.Join(" ", lstBuildCopyCommand.ToArray))
-                    lstRungCommands.Add(getBRXMathcmdDirect("IOLRawBuffer0", tbUdtHeapItem.Text.Trim & ".in." & rw.Item("fieldName"), rw.Item("fieldType"), rw.Item("sourceBitShift"), rw.Item("sourceBitLength")))
+                    lstRungCommands.Add(getBRXMathcmdDirect("IOLRawBuffer0", udtBufferHeapItemName & ".in." & rw.Item("fieldName"), rw.Item("fieldType"), rw.Item("sourceBitShift"), rw.Item("sourceBitLength")))
                     lstRungCommands.Add("")
                 End If
 
@@ -275,7 +303,7 @@ Partial Class Form1
                     For i As Integer = 0 To splt.Count - 1
                         splt(i) = """" & splt(i) & """"
                     Next
-                    lstElmDoc.Add(String.Join(",", {"""" & tbUdtHeapItem.Text.Trim & ".in." & rw.Item("fieldName") & """", """FLAGS=""", """""", """""", String.Join(",", splt)}))
+                    lstElmDoc.Add(String.Join(",", {"""" & udtBufferHeapItemName & ".in." & rw.Item("fieldName") & """", """FLAGS=""", """""", """""", String.Join(",", splt)}))
                 End If
 
             Next
@@ -300,7 +328,7 @@ Partial Class Form1
             lstRungCommands.Add("#BEGIN FMT_COMMENT")
             lstRungCommands.Add("""Stop here if the outputEnable flag is not active.""")
             lstRungCommands.Add("#End")
-            lstRungCommands.Add("STRN " & tbUdtHeapItem.Text.Trim & ".enableOutputs")
+            lstRungCommands.Add("STRN " & udtBufferHeapItemName & ".enableOutputs")
             lstRungCommands.Add("RETC")
             lstRungCommands.Add("")
 
@@ -308,27 +336,27 @@ Partial Class Form1
             lstRungCommands.Add("""Clear UDTBuffer""")
             lstRungCommands.Add("#End")
             lstRungCommands.Add("STR ST1")
-            lstRungCommands.Add("MEMCLEAR IOLUDTOutBuffer0 32")
+            lstRungCommands.Add("MEMCLEAR " & outDataBufferName & "0 32")
             lstRungCommands.Add("")
 
             For Each rw As DataRow In ds.Tables("outUdt").Rows
 
                 lstRungCommands.Add("#BEGIN FMT_COMMENT")
-                lstRungCommands.Add(String.Format("""{0} -> {2}{3}:{5}, Type: {1}, TargetLength: {4}bit""", {rw.Item("fieldName"), rw.Item("fieldType"), tbOutTargetBlock.Text, nudTargetStartElement.Value + rw.Item("sourceByteOffset"), rw.Item("sourceBitLength"), rw.Item("sourceBitShift")}))
+                lstRungCommands.Add(String.Format("""{0} -> {2}{3}:{5}, Type: {1}, TargetLength: {4}bit""", {rw.Item("fieldName"), rw.Item("fieldType"), outDataBufferName, rw.Item("sourceByteOffset"), rw.Item("sourceBitLength"), rw.Item("sourceBitShift")}))
                 lstRungCommands.Add("#End")
 
                 If rw.Item("fieldType") = "BIT" Then
                     lstRungCommands.Add("STR ST1")
-                    lstRungCommands.Add(String.Join(" ", {"MATH", "IOLUDTOutBuffer" & (rw.Item("sourceByteOffset")) & ":" & rw.Item("sourceBitShift"), """" & tbUdtHeapItem.Text.Trim & ".out." & rw.Item("fieldName") & """"}))
+                    lstRungCommands.Add(String.Join(" ", {"MATH", outDataBufferName & (rw.Item("sourceByteOffset")) & ":" & rw.Item("sourceBitShift"), """" & udtBufferHeapItemName & ".out." & rw.Item("fieldName") & """"}))
                     lstRungCommands.Add("")
                 Else
                     Dim mask As Int32 = 2 ^ rw.Item("sourceBitLength") - 1
                     lstRungCommands.Add("STR ST1")
                     lstRungCommands.Add("MEMCLEAR IOLRawBuffer0 1")
-                    lstRungCommands.Add("MATH IOLRawBuffer0 ""(" & tbUdtHeapItem.Text.Trim & ".out." & rw.Item("fieldName") & " & 0x" & mask.ToString("X") & ") << " & rw.Item("sourceBitShift") & """")
+                    lstRungCommands.Add("MATH IOLRawBuffer0 ""(" & udtBufferHeapItemName & ".out." & rw.Item("fieldName") & " & 0x" & mask.ToString("X") & ") << " & rw.Item("sourceBitShift") & """")
 
                     For i As Integer = 0 To rw.Item("sourceByteLength") - 1
-                        Dim targetByte As String = "IOLUDTOutBuffer" & rw.Item("sourceByteOffset") + rw.Item("sourceByteLength") - 1 - i
+                        Dim targetByte As String = outDataBufferName & rw.Item("sourceByteOffset") + rw.Item("sourceByteLength") - 1 - i
 
                         lstRungCommands.Add("MATH " & targetByte & " """ & targetByte & " | IOLRawBuffer0:B" & i & """") '" & rw.Item("sourceByteOffset") + rw.Item("sourceByteLength") - 1 - i  & " "(" & tbOutUdtInstanceName.Text.Trim & "." & rw.Item("fieldName") & mask.ToString("X") & ") << " & rw.Item("sourceBitShift") & ")""")
 
@@ -341,17 +369,17 @@ Partial Class Form1
                     For i As Integer = 0 To splt.Count - 1
                         splt(i) = """" & splt(i) & """"
                     Next
-                    lstElmDoc.Add(String.Join(",", {"""" & tbUdtHeapItem.Text.Trim & ".out." & rw.Item("fieldName") & """", """FLAGS=""", """""", """""", String.Join(",", splt)}))
+                    lstElmDoc.Add(String.Join(",", {"""" & udtBufferHeapItemName & ".out." & rw.Item("fieldName") & """", """FLAGS=""", """""", """""", String.Join(",", splt)}))
                 End If
             Next
 
-            lstRungCommands.Add("#BEGIN FMT_COMMENT")
-            lstRungCommands.Add("""Copy UDTBuffer to Output""")
-            lstRungCommands.Add("#End")
+            'lstRungCommands.Add("#BEGIN FMT_COMMENT")
+            'lstRungCommands.Add("""Copy UDTBuffer to Output""")
+            'lstRungCommands.Add("#End")
 
-            Dim outByteCount As Integer = dvOut.ToTable.Rows(0).Item("pdByteCount")
-            lstRungCommands.Add("STR ST1")
-            lstRungCommands.Add("MEMCOPY IOLUDTOutBuffer0 " & tbOutTargetBlock.Text.Trim & nudTargetStartElement.Value & " 0x0 " & outByteCount)
+            'Dim outByteCount As Integer = dvOut.ToTable.Rows(0).Item("pdByteCount")
+            'lstRungCommands.Add("STR ST1")
+            'lstRungCommands.Add("MEMCOPY IOLUDTOutBuffer0 " & tbOutTargetBlock.Text.Trim & nudTargetStartElement.Value & " 0x0 " & outByteCount)
 
         End If
 #End Region
@@ -370,20 +398,32 @@ Partial Class Form1
         If ds.Tables("outUdt").Rows.Count > 0 Then lstUDTconfig.Add(String.Join(",", {"enableOutputs", "BIT", enableStart & ":0", "Read-Write, Native, Short"}))
         lstUDTconfig.Add("#END")
 
+        Dim lstRungCommandsPGMmapIOLink As New List(Of String)
 
+        If cbGenerateSRCall.Checked Then
+            lstRungCommandsPGMmapIOLink.Add("$PRGRM MapIOLink")
+            lstRungCommandsPGMmapIOLink.Add("STR ST1")
+            lstRungCommandsPGMmapIOLink.Add(String.Format("CALL {0} 0x1 DST511 ""3 {1}"" ""3 {2}""", {tbSubRoutineName.Text.Trim, String.Join(" ", {tbInSourceBlock.Text.Trim & nudSourceStartElement.Value, inDataBufferName & "0", 32, tbUdtHeapItem.Text.Trim, udtBufferHeapItemName, 1}), String.Join(" ", {udtBufferHeapItemName, tbUdtHeapItem.Text.Trim, 1, outDataBufferName & "0", tbOutTargetBlock.Text.Trim & nudTargetStartElement.Value, 32})}))
+            lstRungCommandsPGMmapIOLink.Add("")
+            lstRungCommandsPGMmapIOLink.Add("$PGMEND MapIOLink")
+        End If
 
         Dim lstMemConfg As New List(Of String)
         lstMemConfg.Add("#BEGIN MEM_CONFIG")
 
+        lstMemConfg.Add(String.Join(" ", {udtBufferHeapItemName, tbMainUdtName.Text, "0"}))
         lstMemConfg.Add(String.Join(" ", {tbUdtHeapItem.Text.Trim, tbMainUdtName.Text, "0"}))
         lstMemConfg.Add(String.Join(" ", {"IOLRawBuffer", "SDWORD", "1 -1"}))
-        lstMemConfg.Add(String.Join(" ", {"IOLUDTOutBuffer", "UBYTE", "32 -1"}))
-        If rbIndirectMode.Checked Then
-            lstMemConfg.Add(String.Join(" ", {tbInSourceBlock.Text, "UBYTE", "32 -1"}))
-            lstMemConfg.Add(String.Join(" ", {tbOutTargetBlock.Text, "UBYTE", "32 -1"}))
-        End If
+        lstMemConfg.Add(String.Join(" ", {inDataBufferName, "UBYTE", "32 -1"}))
+        lstMemConfg.Add(String.Join(" ", {outDataBufferName, "UBYTE", "32 -1"}))
+        ' lstMemConfg.Add(String.Join(" ", {"b_IOLMapDataIn", "UBYTE", "32 -1"}))
+        'If rbIndirectMode.Checked Then
+        '    lstMemConfg.Add(String.Join(" ", {tbInSourceBlock.Text, "UBYTE", "32 -1"}))
+        '    lstMemConfg.Add(String.Join(" ", {tbOutTargetBlock.Text, "UBYTE", "32 -1"}))
+        'End If
 
         lstMemConfg.Add(String.Join(" ", {tbSubRoutineName.Text.Trim, "<Virtual>", "0"}))
+        If cbGenerateSRCall.Checked Then lstMemConfg.Add(String.Join(" ", {"MapIOLink", "PROGRAM", "0 -1"}))
 
         lstMemConfg.Add("#END")
 
@@ -396,7 +436,8 @@ Partial Class Form1
             lstOut.AddRange(lstUDTconfig)
             lstOut.AddRange(lstMemConfg)
             '   lstOut.AddRange(lstElmDoc)
-            lstOut.AddRange(lstRungCommands)
+            If cbGenerateSR.Checked Then lstOut.AddRange(lstRungCommands)
+            If cbGenerateSRCall.Checked Then lstOut.AddRange(lstRungCommandsPGMmapIOLink)
             System.IO.File.WriteAllLines(sfd.FileName, lstOut.ToArray)
         End If
     End Sub
@@ -478,23 +519,25 @@ Partial Class Form1
             udtc.fieldStartByte = posCnt * 4
             udtc.fieldStartDword = posCnt
             udtc.sourceBlock = tbInSourceBlock.Text
-
-            Dim bit, bt As Integer
-            bit = rw.Item("itemBitOffset") Mod 8
-            If rw.Item("itemBitLength") <> "" Then
-                bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit + CInt(rw.Item("itemBitLengthNum")) - 1) / 8)
-            Else
-                bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit) / 8)
+            If Not String.IsNullOrWhiteSpace(udtc.fieldType) Then
+                Dim bit, bt As Integer
+                bit = rw.Item("itemBitOffset") Mod 8
+                If rw.Item("itemBitLength") <> "" Then
+                    bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit + CInt(rw.Item("itemBitLengthNum")) - 1) / 8)
+                Else
+                    bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit) / 8)
+                End If
+                udtc.sourceByteOffset = rw.Item("PIMsbByte") - 1
+                udtc.sourceByteLength = (rw.Item("itemBitLengthNum") - (rw.Item("itemBitLengthNum") Mod 8)) / 8
+                If rw.Item("itemBitLengthNum") Mod 8 > 0 Then udtc.sourceByteLength += 1
+                udtc.sourceBitShift = ((rw.Item("itemBitOffset")) Mod 8)
+                udtc.sourceType = rw.Item("itemType")
+                udtc.sourceBitLength = rw.Item("itemBitLengthNum")
+                udtc.itemValues = rw.Item("itemValues")
+                posCnt += 1
+                ds.Tables("inUdt").Rows.Add(udtc.getValues)
             End If
-            udtc.sourceByteOffset = rw.Item("PIMsbByte") - 1
-            udtc.sourceByteLength = (rw.Item("itemBitLengthNum") - (rw.Item("itemBitLengthNum") Mod 8)) / 8
-            If rw.Item("itemBitLengthNum") Mod 8 > 0 Then udtc.sourceByteLength += 1
-            udtc.sourceBitShift = ((rw.Item("itemBitOffset")) Mod 8)
-            udtc.sourceType = rw.Item("itemType")
-            udtc.sourceBitLength = rw.Item("itemBitLengthNum")
-            udtc.itemValues = rw.Item("itemValues")
-            posCnt += 1
-            ds.Tables("inUdt").Rows.Add(udtc.getValues)
+
         Next
 
         dgvInUdt.DataSource = ds.Tables("inUdt")
@@ -524,23 +567,25 @@ Partial Class Form1
             udtc.fieldStartByte = posCnt * 4
             udtc.fieldStartDword = posCnt
             udtc.sourceBlock = tbInSourceBlock.Text
-
-            Dim bit, bt As Integer
-            bit = rw.Item("itemBitOffset") Mod 8
-            If rw.Item("itemBitLength") <> "" Then
-                bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit + CInt(rw.Item("itemBitLengthNum")) - 1) / 8)
-            Else
-                bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit) / 8)
+            If Not String.IsNullOrWhiteSpace(udtc.fieldType) Then
+                Dim bit, bt As Integer
+                bit = rw.Item("itemBitOffset") Mod 8
+                If rw.Item("itemBitLength") <> "" Then
+                    bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit + CInt(rw.Item("itemBitLengthNum")) - 1) / 8)
+                Else
+                    bt = rw.Item("pdByteCount") - ((rw.Item("itemBitOffset") - bit) / 8)
+                End If
+                udtc.sourceByteOffset = rw.Item("PIMsbByte") - 1
+                udtc.sourceByteLength = (rw.Item("itemBitLengthNum") - (rw.Item("itemBitLengthNum") Mod 8)) / 8
+                If rw.Item("itemBitLengthNum") Mod 8 > 0 Then udtc.sourceByteLength += 1
+                udtc.sourceBitShift = ((rw.Item("itemBitOffset")) Mod 8)
+                udtc.sourceType = rw.Item("itemType")
+                udtc.sourceBitLength = rw.Item("itemBitLengthNum")
+                udtc.itemValues = rw.Item("itemValues")
+                posCnt += 1
+                ds.Tables("outUdt").Rows.Add(udtc.getValues)
             End If
-            udtc.sourceByteOffset = rw.Item("PIMsbByte") - 1
-            udtc.sourceByteLength = (rw.Item("itemBitLengthNum") - (rw.Item("itemBitLengthNum") Mod 8)) / 8
-            If rw.Item("itemBitLengthNum") Mod 8 > 0 Then udtc.sourceByteLength += 1
-            udtc.sourceBitShift = ((rw.Item("itemBitOffset")) Mod 8)
-            udtc.sourceType = rw.Item("itemType")
-            udtc.sourceBitLength = rw.Item("itemBitLengthNum")
-            udtc.itemValues = rw.Item("itemValues")
-            posCnt += 1
-            ds.Tables("outUdt").Rows.Add(udtc.getValues)
+
         Next
         dgvOutUdt.DataSource = ds.Tables("outUdt")
     End Sub
@@ -603,8 +648,10 @@ Partial Class Form1
             dvOut.RowFilter = "pdDir = 'Out' AND " & "conditionValName = '" & cbSelectedOption.SelectedValue.ToString & "'"
             If Not IsDBNull(CType(cbSelectedOption.SelectedItem, DataRowView).Item("conditionValue")) Then
                 conditionVal = CType(cbSelectedOption.SelectedItem, DataRowView).Item("conditionValue")
+                conditionDesc = cbSelectedOption.SelectedValue.ToString
             Else
                 conditionVal = ""
+                conditionDesc = ""
             End If
 
         End If
@@ -612,40 +659,14 @@ Partial Class Form1
         calculateUdts()
     End Sub
 
-    Private Sub rbExplicitMode_CheckedChanged(sender As Object, e As EventArgs) Handles rbExplicitMode.CheckedChanged
-        If IsNothing(ds) Then Return
-        If rbExplicitMode.Checked Then
-            gbInSourceData.Enabled = True
-            gbOutTargetData.Enabled = True
-            gbDeviceName.Enabled = True
 
-            nudSourceStartElement.Value = inOffset
-            nudTargetStartElement.Value = outOffset
 
-            tbInSourceBlock.Text = inBlockName
-            tbOutTargetBlock.Text = outBlockName
-
-            tbUdtHeapItem.Text = heapItemName
-
-        Else
-            gbInSourceData.Enabled = False
-            gbOutTargetData.Enabled = False
-            gbDeviceName.Enabled = False
-
-            inBlockName = tbInSourceBlock.Text
-            outBlockName = tbOutTargetBlock.Text
-            heapItemName = tbUdtHeapItem.Text
-
-            tbInSourceBlock.Text = "iolMapRawInBuf"
-            tbOutTargetBlock.Text = "iolMapRawOutBuf"
-            '  tbUdtHeapItem.Text = "iolMapUdtBuf"          (in this case this is et in updateTypeAndSubName() )
-
-            nudSourceStartElement.Value = 0
-            nudTargetStartElement.Value = 0
-        End If
-        updateTypeAndSubName()
-
+    Private Sub cbGenerateSRCall_CheckedChanged(sender As Object, e As EventArgs) Handles cbGenerateSRCall.CheckedChanged
+        gbInSourceData.Enabled = cbGenerateSRCall.Checked
+        gbOutTargetData.Enabled = cbGenerateSRCall.Checked
+        gbDeviceName.Enabled = cbGenerateSRCall.Checked
     End Sub
+
 
     Sub updateProcessData()
         dgvIn.Rows.Clear()
