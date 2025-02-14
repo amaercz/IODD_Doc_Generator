@@ -46,15 +46,15 @@ Partial Class Form1
         Dim venNameAvail As Integer = 16 - 2 - devNameLenUse
         Dim vendorNameLenUse As Integer = Math.Min(venNameAvail, vendorNameClean.Length)
         '  subRoutineName = "m_" & "_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
-        subRoutineName = "m_" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        subRoutineName = "m_" & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
         venNameAvail = 16 - 2 - devNameLenUse
         vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
         ' mainUdtName = "t_" & vendorNameClean.Substring(0, vendorNameLenUse) & deviceNameClean.Substring(0, devNameLenUse)
-        mainUdtName = "t_" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        mainUdtName = "t_" & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
-        inUdtName = "tI" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
-        outUdtName = "tO" & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        inUdtName = "tI" & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
+        outUdtName = "tO" & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
         If Not IsNothing(tscbIolMasterPorts.SelectedItem) Then
             inOffset = CType(tscbIolMasterPorts.SelectedItem, portInfo).inByteStart
@@ -157,7 +157,7 @@ Partial Class Form1
         Dim venNameAvail As Integer
         Dim vendorNameLenUse As Integer
         Dim condLen As Integer = conditionVal.Length
-        Dim availCondChars As Integer = 16 - 2 - ("V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")).Length
+        Dim availCondChars As Integer = 16 - 2 - ("v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")).Length
         'If rbExplicitMode.Checked Then
         '    devNameLenUse = Math.Min(13, deviceNameClean.Length)
         '    venNameAvail = 16 - 2 - devNameLenUse - port.Length
@@ -167,9 +167,9 @@ Partial Class Form1
         devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
             venNameAvail = 16 - 2 - devNameLenUse - condLen
             vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
-        subRoutineName = "m_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        subRoutineName = "m_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
-        udtBufferHeapItemName = "b_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D"
+        udtBufferHeapItemName = "b_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
 
 
@@ -177,12 +177,12 @@ Partial Class Form1
         devNameLenUse = Math.Min(13 - condLen, deviceNameClean.Length)
         venNameAvail = 16 - 2 - devNameLenUse - condLen
         vendorNameLenUse = Math.Min(venNameAvail, vendorNameClean.Length)
-        mainUdtName = "t_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        mainUdtName = "t_" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
 
 
-        inUdtName = "tI" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
-        outUdtName = "tO" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "V" & CInt(vendorId).ToString("x") & "D" & CInt(deviceId).ToString("x")
+        inUdtName = "tI" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
+        outUdtName = "tO" & conditionVal.Substring(0, Math.Min(availCondChars, conditionVal.Length)) & "v" & CInt(vendorId).ToString("X") & "d" & CInt(deviceId).ToString("X")
 
         tbSubRoutineName.Text = subRoutineName
         tbMainUdtName.Text = mainUdtName

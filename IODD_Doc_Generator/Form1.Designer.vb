@@ -168,14 +168,12 @@ Partial Class Form1
         '
         Me.tscbIolMasters.AutoSize = False
         Me.tscbIolMasters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.tscbIolMasters.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasters.Name = "tscbIolMasters"
         Me.tscbIolMasters.Size = New System.Drawing.Size(180, 23)
         '
         'tscbIolMasterPorts
         '
         Me.tscbIolMasterPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.tscbIolMasterPorts.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasterPorts.Name = "tscbIolMasterPorts"
         Me.tscbIolMasterPorts.Size = New System.Drawing.Size(121, 23)
         '
