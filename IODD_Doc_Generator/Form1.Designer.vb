@@ -216,7 +216,7 @@ Partial Class Form1
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
         Me.tstbVer.Size = New System.Drawing.Size(90, 23)
-        Me.tstbVer.Text = "1.1.1a0(withBrx)"
+        Me.tstbVer.Text = "1.1.1a2(withBrx)"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'WebView21

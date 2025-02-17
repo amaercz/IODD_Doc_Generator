@@ -89,7 +89,7 @@ Partial Class Form1
                     If fn.Length > 16 Then
                         re = New Regex("[^a-zA-z0-9\s]")
                         fn = re.Replace(dr.Item("itemName").trim, "")
-                        Dim words() = fn.Split(" ")
+                        Dim words() = fn.Split({" "}, StringSplitOptions.RemoveEmptyEntries)
                         fn = ""
                         Dim cntPerWord As Integer = (16 - (16 Mod words.Count)) / words.Count
                         For Each word As String In words
