@@ -161,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="IOLDef\Balluff_BNI00HM.iolmstr" />
+    <Content Include="IODD-StandardDefinitions1.1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="IOLDef\Murr_54631.iolmstr">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
