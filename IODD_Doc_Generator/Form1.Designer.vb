@@ -46,7 +46,8 @@ Partial Class Form1
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadToolStripMenuItem, Me.OptionallySelectMasterToolStripMenuItem, Me.tscbIolMasters, Me.tscbIolMasterPorts, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.tstbVer, Me.LicenseToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1822, 27)
+        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(4, 1, 0, 1)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1063, 25)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -68,13 +69,13 @@ Partial Class Form1
         Me.tscbIolMasters.AutoSize = False
         Me.tscbIolMasters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.tscbIolMasters.Name = "tscbIolMasters"
-        Me.tscbIolMasters.Size = New System.Drawing.Size(356, 23)
+        Me.tscbIolMasters.Size = New System.Drawing.Size(209, 23)
         '
         'tscbIolMasterPorts
         '
         Me.tscbIolMasterPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.tscbIolMasterPorts.Name = "tscbIolMasterPorts"
-        Me.tscbIolMasterPorts.Size = New System.Drawing.Size(238, 23)
+        Me.tscbIolMasterPorts.Size = New System.Drawing.Size(140, 23)
         '
         'ToolStripMenuItem1
         '
@@ -111,10 +112,11 @@ Partial Class Form1
         Me.tstbVer.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
         Me.tstbVer.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.tstbVer.Enabled = False
+        Me.tstbVer.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
-        Me.tstbVer.Size = New System.Drawing.Size(120, 23)
-        Me.tstbVer.Text = "1.1.1beta"
+        Me.tstbVer.Size = New System.Drawing.Size(70, 23)
+        Me.tstbVer.Text = "1.1.2beta"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'LicenseToolStripMenuItem
@@ -130,23 +132,24 @@ Partial Class Form1
         Me.WebView21.CreationProperties = Nothing
         Me.WebView21.DefaultBackgroundColor = System.Drawing.Color.White
         Me.WebView21.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.WebView21.Location = New System.Drawing.Point(0, 27)
-        Me.WebView21.Margin = New System.Windows.Forms.Padding(4)
+        Me.WebView21.Location = New System.Drawing.Point(0, 25)
+        Me.WebView21.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.WebView21.Name = "WebView21"
-        Me.WebView21.Size = New System.Drawing.Size(1822, 1034)
+        Me.WebView21.Size = New System.Drawing.Size(1063, 612)
         Me.WebView21.TabIndex = 3
         Me.WebView21.ZoomFactor = 1.0R
         '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1822, 1061)
+        Me.ClientSize = New System.Drawing.Size(1063, 637)
         Me.Controls.Add(Me.WebView21)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "Form1"
         Me.Text = "IODD Doc Generator - BETA - internal use only"
         Me.MenuStrip1.ResumeLayout(False)

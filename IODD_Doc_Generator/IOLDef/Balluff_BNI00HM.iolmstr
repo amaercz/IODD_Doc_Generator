@@ -3,56 +3,56 @@
   "model": "BNI00HM",
   "ports": [
     {
-      "name": "Port 0",
+      "name": "Port0",
       "inByteCount": 32,
       "inByteStart": 8,
       "outByteCount": 32,
       "outByteStart": 6
     },
     {
-      "name": "Port 1",
+      "name": "Port1",
       "inByteCount": 32,
       "inByteStart": 55,
       "outByteCount": 32,
       "outByteStart": 38
     },
     {
-      "name": "Port 2",
+      "name": "Port2",
       "inByteCount": 32,
       "inByteStart": 104,
       "outByteCount": 32,
       "outByteStart": 70
     },
     {
-      "name": "Port 3",
+      "name": "Port3",
       "inByteCount": 32,
       "inByteStart": 152,
       "outByteCount": 32,
       "outByteStart": 102
     },
     {
-      "name": "Port 4",
+      "name": "Port4",
       "inByteCount": 32,
       "inByteStart": 200,
       "outByteCount": 32,
       "outByteStart": 134
     },
     {
-      "name": "Port 5",
+      "name": "Port5",
       "inByteCount": 32,
       "inByteStart": 248,
       "outByteCount": 32,
       "outByteStart": 166
     },
     {
-      "name": "Port 6",
+      "name": "Port6",
       "inByteCount": 32,
       "inByteStart": 296,
       "outByteCount": 32,
       "outByteStart": 198
     },
     {
-      "name": "Port 7",
+      "name": "Port7",
       "inByteCount": 32,
       "inByteStart": 344,
       "outByteCount": 32,

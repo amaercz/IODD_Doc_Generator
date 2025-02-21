@@ -809,7 +809,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:IODD11Parser, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:IODD11Parser, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B0432337FB53B41F21516E6877AE2FBB"
@@ -933,7 +933,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:IODD10parser, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:IODD10parser, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E7F960BA5597538BC8A430A0F2749A52"
@@ -1109,15 +1109,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:IODD1.1 Doc Generator"
-        "ProductCode" = "8:{710A91D1-D6A3-407A-AE71-9019FCFE36F0}"
-        "PackageCode" = "8:{9FC1591C-CB8F-4164-86F3-D88FD5D84C88}"
+        "ProductCode" = "8:{942A6CBA-1DA3-4E4B-88D7-EFE0ECCA2B7A}"
+        "PackageCode" = "8:{97078551-4A3D-438E-826A-061C6C9DC0EB}"
         "UpgradeCode" = "8:{1538AA66-3E18-4111-82AD-350F34833BB1}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.1"
+        "ProductVersion" = "8:1.1.2"
         "Manufacturer" = "8:AMADC"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
