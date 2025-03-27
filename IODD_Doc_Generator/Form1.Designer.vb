@@ -68,12 +68,14 @@ Partial Class Form1
         '
         Me.tscbIolMasters.AutoSize = False
         Me.tscbIolMasters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tscbIolMasters.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasters.Name = "tscbIolMasters"
         Me.tscbIolMasters.Size = New System.Drawing.Size(209, 23)
         '
         'tscbIolMasterPorts
         '
         Me.tscbIolMasterPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tscbIolMasterPorts.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.tscbIolMasterPorts.Name = "tscbIolMasterPorts"
         Me.tscbIolMasterPorts.Size = New System.Drawing.Size(140, 23)
         '
@@ -116,7 +118,7 @@ Partial Class Form1
         Me.tstbVer.Name = "tstbVer"
         Me.tstbVer.ReadOnly = True
         Me.tstbVer.Size = New System.Drawing.Size(70, 23)
-        Me.tstbVer.Text = "1.1.2beta"
+        Me.tstbVer.Text = "1.1.5RC1"
         Me.tstbVer.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'LicenseToolStripMenuItem
@@ -133,7 +135,7 @@ Partial Class Form1
         Me.WebView21.DefaultBackgroundColor = System.Drawing.Color.White
         Me.WebView21.Dock = System.Windows.Forms.DockStyle.Fill
         Me.WebView21.Location = New System.Drawing.Point(0, 25)
-        Me.WebView21.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.WebView21.Margin = New System.Windows.Forms.Padding(2)
         Me.WebView21.Name = "WebView21"
         Me.WebView21.Size = New System.Drawing.Size(1063, 612)
         Me.WebView21.TabIndex = 3
@@ -149,7 +151,7 @@ Partial Class Form1
         Me.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
         Me.Text = "IODD Doc Generator - BETA - internal use only"
         Me.MenuStrip1.ResumeLayout(False)
